@@ -15,22 +15,29 @@ const Token = () => {
     const data = result.json();
     data.then((data) => {
       console.log(data);
-      sessionStorage.setItem("accessToken", data.access_token); // set access token
-      sessionStorage.setItem("refreshToken", data.refresh_token); // set refresh token
+      if (
+        data.error === "invalid_grant" &&
+        data.error_description === "Invalid authorization code"
+      ) {
+        // Tried to request access token with the same authorization code.
+      } else {
+        sessionStorage.setItem("accessToken", data.access_token); // set access token
+        sessionStorage.setItem("refreshToken", data.refresh_token); // set refresh token}
+      }
     });
     data.catch((error) => {
-      console.log(error);
+      console.error(error);
     });
   }
+  // Refresh Token
 
   const queryParams = new URLSearchParams(window.location.search);
-  const state = queryParams.get("state");
+  const state = queryParams.get("state"); // Created in the authorization step
   const authCode = queryParams.get("code");
 
   if (authCode != null && state === sessionStorage.getItem("state")) {
     GetToken(authCode);
-  } else {
-    return <h1>I sense foul play</h1>;
+    window.location.href = "/Landing";
   }
   return <></>;
 };

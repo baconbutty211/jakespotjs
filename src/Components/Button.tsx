@@ -1,7 +1,7 @@
 interface Props {
   children: string;
   color?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button = ({ children, onClick, color = "success" }: Props) => {
