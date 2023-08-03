@@ -2,17 +2,16 @@ import Title from "../../Components/Title";
 import Button from "../../Components/Button";
 import Label from "../../Components/Label";
 
-function CreateGame() {
-  // Insert row into Game table
-  // Insert row into Player table
-  // Send user to Buffet
-}
-function JoinGame() {
-  // Insert row into Player table
-  // Send user to Buffet
-}
-
 export default function Landing() {
+  function CreateGame() {
+    // Insert row into Game table
+    // Insert row into Player table
+    // Send user to Buffet
+  }
+  function JoinGame() {
+    // Insert row into Player table
+    // Send user to Buffet
+  }
   return (
     <>
       <Title>Landing</Title>

@@ -14,6 +14,7 @@ function Authorize() {
     var scope: string = "user-read-private user-read-email";
     var state: string = GetRandomInt(10000000000000000).toString();
     sessionStorage.setItem("state", state);
+    console.log(state);
 
     var queryParams = {
       client_id: client_id,
