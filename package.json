@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/node": "^2.15.8",
+    "@vercel/postgres-kysely": "^0.4.1",
     "babel": "^6.23.0",
     "bootstrap": "^5.2.3",
     "convex": "^0.14.1",
     "dotenv": "^16.0.3",
+    "kysely": "^0.26.1",
+    "nvm": "^0.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2"
