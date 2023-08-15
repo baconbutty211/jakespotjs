@@ -1,9 +1,8 @@
 {
-    "routes": [
+    "rewrites": [
         {
-            "src": "/Token",
-            "dest": "/src/Components/Token.tsx",
-            "status": 200
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }
