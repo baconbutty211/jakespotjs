@@ -1,8 +1,9 @@
 {
-    "redirects": [
+    "routes": [
         {
-            "source": "/Token",
-            "destination": "./Components/Token"
+            "src": "/Token",
+            "dest": "/src/Components/Token.tsx",
+            "status": 200
         }
     ]
 }
