@@ -1,0 +1,8 @@
+{
+    "redirects": [
+        {
+            "source": "/Token",
+            "destination": "./Components/Token"
+        }
+    ]
+}
