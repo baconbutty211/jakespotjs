@@ -1,16 +1,35 @@
 // @ts-ignore
-import { createUser, findUsers, findLastUser } from './database.tsx';
+import { createUser, findUsers, findLastUser, findUserByEmail, updateUser } from './database.tsx';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 export default async function POST( request: VercelRequest, response: VercelResponse) {
   try {
-    const email = request.query.email as string;
-    const accessToken = request.query.accessToken as string;
-    const refreshToken = request.query.refreshToken as string;
-    if (!email || !accessToken || !refreshToken){ 
-      throw new Error('Email, access token, refresh token required');
+    const email = request.body.email as string;
+    const accessToken = request.body.accessToken as string;
+    const refreshToken = request.body.refreshToken as string;
+
+    if(!email || !accessToken || !refreshToken) {
+      let errmsg = "";
+      if (!email)
+        errmsg += "email ";
+      if( !accessToken )
+        errmsg += "access token ";
+      if( !refreshToken) 
+        errmsg += "refresh token ";
+
+      errmsg += "required"
+      throw new Error(errmsg);
     }
-    await createUser({email: email, accesstoken: accessToken, refreshtoken: refreshToken});
+
+    const user = await findUserByEmail(email);
+    //console.log(user);
+    let result = null;
+    if(JSON.stringify(user) === "[]") { // user does NOT exist
+      result = await createUser({email: email, accesstoken: accessToken, refreshtoken: refreshToken});
+    }
+    else { // user DOES exist
+      result = await updateUser(email, {accesstoken: accessToken, refreshtoken:refreshToken});
+    }
   } 
   catch (error) {
     console.error(error);

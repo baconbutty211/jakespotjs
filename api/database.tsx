@@ -1,11 +1,12 @@
 import { createKysely } from '@vercel/postgres-kysely';
 // @ts-ignore
-import { Database, UserUpdate, User, NewUser } from './schema'
+import { Database, UpdateableUser, User, NewUser } from './schema'
 
 function getDatabase(){
     return createKysely<Database>();
 }
 
+//#region UserTable
 export async function createUser(user: NewUser) {
     const db = getDatabase();
     return await db.insertInto('users')
@@ -13,14 +14,26 @@ export async function createUser(user: NewUser) {
         .returningAll()
         .executeTakeFirstOrThrow();
 }
-
 export async function findUsers() {
     const db = getDatabase();
     return await db.selectFrom('users')
         .selectAll()
         .execute();
 }
-
+export async function findUserById(id: number) {
+    const db = getDatabase();
+    return await db.selectFrom('users')
+        .selectAll()
+        .where('id', "=", id)
+        .execute();
+}
+export async function findUserByEmail(email: string) {
+    const db = getDatabase();
+    return await db.selectFrom('users')
+        .selectAll()
+        .where('email', "=", email)
+        .execute();
+}
 export async function findLastUser() {
     const db = getDatabase();
     return await db.selectFrom('users')
@@ -29,3 +42,11 @@ export async function findLastUser() {
         .limit(1)
         .execute();
 }
+export async function updateUser(email: string, update: UpdateableUser) {
+    const db = getDatabase();
+    db.updateTable('users')
+    .set(update)
+    .where('email', '=', email)
+    .executeTakeFirst();
+}
+//#endregion

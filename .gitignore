@@ -26,3 +26,4 @@ dist-ssr
 env.js
 *.local
 .vercel
+.env*.local
