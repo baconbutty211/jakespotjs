@@ -25,10 +25,10 @@ export default async function POST( request: VercelRequest, response: VercelResp
     //console.log(user);
     let result = null;
     if(JSON.stringify(user) === "[]") { // user does NOT exist
-      result = await createUser({email: email, accesstoken: accessToken, refreshtoken: refreshToken});
+      result = await createUser({email: email, spotify_access_token: accessToken, spotify_refresh_token: refreshToken});
     }
     else { // user DOES exist
-      result = await updateUser(email, {accesstoken: accessToken, refreshtoken:refreshToken});
+      result = await updateUser(email, {spotify_access_token: accessToken, spotify_refresh_token:refreshToken});
     }
   } 
   catch (error) {
