@@ -3,7 +3,7 @@ import Title from "../../Components/Title";
 import { GetAuthCode } from "../../Components/Spotify/Authorization"
 
 
-function Authorize() {
+export default function Authorize() {
   return (
     <>
       <Title>Login</Title>
@@ -11,5 +11,3 @@ function Authorize() {
     </>
   );
 }
-
-export default Authorize;

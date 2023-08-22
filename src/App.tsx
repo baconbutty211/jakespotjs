@@ -19,7 +19,6 @@ function App() {
           <Route path="/Game" element={<Game />} />
         </Routes>
       </Router>
-      <Token />
     </div>
   );
 }
