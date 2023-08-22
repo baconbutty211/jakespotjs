@@ -30,11 +30,11 @@ const Token = () => {
       data.then((data) => {
         //console.log(data);
         if (data.error === "invalid_grant" && data.error_description === "Invalid authorization code") { // Tried to request access token with the same authorization code.
-          console.error("Invalid authorization code. Tried to request access token with the same authorization code")
+          throw Error("Invalid authorization code. Tried to request access token with the same authorization code");
         } 
         else { // Authorization code is valid
-          sessionStorage.setItem("accessToken", data.access_token); // set access token
-          sessionStorage.setItem("refreshToken", data.refresh_token); // set refresh token
+          //sessionStorage.setItem("accessToken", data.access_token); // set access token
+          //sessionStorage.setItem("refreshToken", data.refresh_token); // set refresh token
           GetUserProfile(data.access_token).then((user) => {
             const profile = user.json();
             profile.then((profile) => {

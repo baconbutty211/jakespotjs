@@ -27,3 +27,4 @@ env.js
 *.local
 .vercel
 .env*.local
+vercel.json
