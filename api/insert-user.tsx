@@ -5,16 +5,16 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 export default async function POST( request: VercelRequest, response: VercelResponse) {
   try {
     const email = request.body.email as string;
-    const accessToken = request.body.accessToken as string;
-    const refreshToken = request.body.refreshToken as string;
+    const access_token = request.body.access_token as string;
+    const refresh_token = request.body.refresh_token as string;
 
-    if(!email || !accessToken || !refreshToken) {
+    if(!email || !access_token || !refresh_token) {
       let errmsg = "";
       if (!email)
         errmsg += "email ";
-      if( !accessToken )
+      if( !access_token )
         errmsg += "access token ";
-      if( !refreshToken) 
+      if( !refresh_token) 
         errmsg += "refresh token ";
 
       errmsg += "required"
@@ -22,13 +22,12 @@ export default async function POST( request: VercelRequest, response: VercelResp
     }
 
     const user = await findUserByEmail(email);
-    //console.log(user);
     let result = null;
     if(JSON.stringify(user) === "[]") { // user does NOT exist
-      result = await createUser({email: email, spotify_access_token: accessToken, spotify_refresh_token: refreshToken});
+      result = await createUser({email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token});
     }
     else { // user DOES exist
-      result = await updateUser(email, {spotify_access_token: accessToken, spotify_refresh_token:refreshToken});
+      result = await updateUser(email, {spotify_access_token: access_token, spotify_refresh_token:refresh_token});
     }
   } 
   catch (error) {

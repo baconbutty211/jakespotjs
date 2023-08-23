@@ -23,8 +23,8 @@ export type UpdateableUser = Updateable<UserTable>;
 export interface PlayerTable {
     id: Generated<number>,
     user_id: number,
-    spotify_playlist_id: string,
     game_id: number,
+    spotify_playlist_id: string,
     score: number,
 }
 export type Player = Selectable<PlayerTable>;

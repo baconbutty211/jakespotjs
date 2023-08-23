@@ -35,7 +35,6 @@ export async function GetToken(authCode: string) {
       },
       body: `grant_type=authorization_code&redirect_uri=${redirect_uri}&code=${authCode}`,
     });
-    //console.log(result)
     return result;
 }
 

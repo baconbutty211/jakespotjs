@@ -1,9 +1,9 @@
 import Login from "./Pages/Login/Authorize";
+import Token from "./Pages/Login/Token";
 import Landing from "./Pages/Landing/Landing";
 import Buffet from "./Pages/Buffet/Buffet";
 import Lobby from "./Pages/Lobby/Lobby";
 import Game from "./Pages/Game/Game";
-import Token from "./Components/Token";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
