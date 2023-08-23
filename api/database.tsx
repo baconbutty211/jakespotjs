@@ -50,3 +50,7 @@ export async function updateUser(email: string, update: UpdateableUser) {
     .executeTakeFirst();
 }
 //#endregion
+
+//#region GameTable
+
+//#endregion
