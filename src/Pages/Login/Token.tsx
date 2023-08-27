@@ -29,7 +29,7 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
       throw new Error(errmsg);
     }
     else {
-      await fetch(api_uri + '/insert-user', {
+      await fetch(api_uri + '/Create/User', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, accessToken: access_token, refreshToken: refresh_token }),

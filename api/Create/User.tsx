@@ -2,7 +2,9 @@
 import { createUser, findUsers, findLastUser, findUserByEmail, updateUser } from './database.tsx';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
-export default async function POST( request: VercelRequest, response: VercelResponse) {
+// Recieves user details (email, access token, refresh token). If user exists: current record is updated. if user does not exist: new record is created. Returns new/updated user record.
+// Body: { email, access token, refresh token }
+export default async function PUT( request: VercelRequest, response: VercelResponse) {
   try {
     const email = request.body.email as string;
     const access_token = request.body.access_token as string;
@@ -27,7 +29,7 @@ export default async function POST( request: VercelRequest, response: VercelResp
       result = await createUser({email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token});
     }
     else { // user DOES exist
-      result = await updateUser(email, {spotify_access_token: access_token, spotify_refresh_token:refresh_token});
+      result = await updateUser({email: email, spotify_access_token: access_token, spotify_refresh_token:refresh_token});
     }
   } 
   catch (error) {

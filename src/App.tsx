@@ -4,6 +4,7 @@ import Landing from "./Pages/Landing/Landing";
 import Buffet from "./Pages/Buffet/Buffet";
 import Lobby from "./Pages/Lobby/Lobby";
 import Game from "./Pages/Game/Game";
+import Sandbox from "./Pages/Test/Sandbox";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/Buffet" element={<Buffet />} />
           <Route path="/Lobby" element={<Lobby />} />
           <Route path="/Game" element={<Game />} />
+          <Route path="/Sandbox" element={<Sandbox />} />
         </Routes>
       </Router>
     </div>

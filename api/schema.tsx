@@ -45,7 +45,7 @@ export type UpdateableSong = Updateable<SongTable>;
 export interface GameTable {
     id: Generated<number>,
     state: "lobby" | "guessing" | "scoring" | "finished",
-    current_song_id: number
+    current_song_id: number | null
 }
 export type Game = Selectable<GameTable>;
 export type NewGame = Insertable<GameTable>;
