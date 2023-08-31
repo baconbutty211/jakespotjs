@@ -1,5 +1,7 @@
 // @ts-ignore
-import { createUser, findUsers, findLastUser, findUserByEmail, updateUser } from './database.tsx';
+import * as database from './database.js';
+// @ts-ignore
+import * as schema from './schema.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Recieves user details (email, access token, refresh token). If user exists: current record is updated. if user does not exist: new record is created. Returns new/updated user record.
@@ -23,19 +25,12 @@ export default async function PUT( request: VercelRequest, response: VercelRespo
       throw new Error(errmsg);
     }
 
-    const user = await findUserByEmail(email);
-    let result = null;
-    if(JSON.stringify(user) === "[]") { // user does NOT exist
-      result = await createUser({email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token});
-    }
-    else { // user DOES exist
-      result = await updateUser({email: email, spotify_access_token: access_token, spotify_refresh_token:refresh_token});
-    }
+    const newUserData : schema.NewUser = {email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token};
+    const newUser = await database.upsertUser(newUserData);
+    return response.status(200).json( newUser );
   } 
   catch (error) {
     console.error(error);
     return response.status(500).json({ error });
   }
-  const users = await findLastUser();
-  return response.status(200).json({ users });
 }

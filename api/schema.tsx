@@ -1,4 +1,5 @@
-import { Generated, Insertable, Selectable, Updateable } from 'kysely'
+import { sql } from 'kysely';
+import { Generated, Insertable, Selectable, Updateable, Expression, OperationNode } from 'kysely'
 
 export interface Database {
     users: UserTable,
@@ -35,7 +36,7 @@ export type UpdateablePlayer = Updateable<PlayerTable>;
 export interface SongTable {
     id: Generated<number>,
     spotify_track_id: string,
-    player_id: number
+    player_id: Player["id"]
 }
 export type Song = Selectable<SongTable>;
 export type NewSong = Insertable<SongTable>;
@@ -45,7 +46,7 @@ export type UpdateableSong = Updateable<SongTable>;
 export interface GameTable {
     id: Generated<number>,
     state: "lobby" | "guessing" | "scoring" | "finished",
-    current_song_id: number | null
+    current_song_id: Song["id"] | null
 }
 export type Game = Selectable<GameTable>;
 export type NewGame = Insertable<GameTable>;
@@ -54,8 +55,9 @@ export type UpdateableGame = Updateable<GameTable>;
 
 export interface GuessTable {
     id: Generated<number>,
-    player_id: number,
-    guessed_player_id: number,
+    player_id: Player["id"],
+    current_song_id: Song["id"],
+    guessed_player_id: Player["id"],
     is_correct: boolean
 }
 export type Guess = Selectable<GuessTable>;
