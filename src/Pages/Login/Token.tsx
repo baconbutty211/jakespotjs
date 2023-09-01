@@ -1,6 +1,7 @@
 import { GetToken } from '../../Components/Spotify/Authorization';
 import { GetUserProfile } from '../../Components/Spotify/User';
 import { api_uri } from '../../misc'
+import { useCookies } from 'react-cookie';
 
 
 async function ExchangeAuthCodeForAccessToken(authCode: string) {
@@ -10,12 +11,15 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
     throw Error("Invalid authorization code. Tried to request access token with the same authorization code");
   }
   else { // Authorization code is valid
+    console.log(data);
     const user = await GetUserProfile(data.access_token);
     const profile = await user.json();
 
     const email = profile.email;
     const access_token = data.access_token;
+    console.log(access_token);
     const refresh_token = data.refresh_token;
+    console.log(refresh_token);
     if(!email || !access_token || !refresh_token) {
       let errmsg = "";
       if (!email)
@@ -29,16 +33,20 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
       throw new Error(errmsg);
     }
     else {
-      await fetch(api_uri + '/upsert-user', {
+      const newUser = await fetch(api_uri + '/upsert-user', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, accessToken: access_token, refreshToken: refresh_token }),
+        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token }),
       });
+      const newUserData = await newUser.json();
+      return newUserData.id;
     }
   }
 }
 
 export default function Token() {
+  const [cookies, setCookie] = useCookies(["user_id"]);
+
   const queryParams = new URLSearchParams(window.location.search);
   const state = queryParams.get("state"); // Created in the authorization step
   const authCode = queryParams.get("code");
@@ -51,7 +59,8 @@ export default function Token() {
   }
   else { // Authoization succeeded
     const exchange = ExchangeAuthCodeForAccessToken(authCode);
-    exchange.then(() => {
+    exchange.then((user_id) => {
+      setCookie("user_id", user_id, { path: "/Token" } );
       window.location.href = "/Landing";
     });
     exchange.catch((error) => {
