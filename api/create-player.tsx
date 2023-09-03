@@ -6,7 +6,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Creates new player record. Returns new player record
 // Body : { user_id, game_id, spotify_playlist_id }
-export default async function POST(request: VercelRequest, response: VercelResponse) {
+export default function POST(request: VercelRequest, response: VercelResponse) {
     try {
         const user_id = request.body.user_id as schema.Player["user_id"];
         const game_id = request.body.game_id as schema.Player["game_id"];
@@ -23,11 +23,18 @@ export default async function POST(request: VercelRequest, response: VercelRespo
         }
 
         const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0 } as schema.Player;
-        const newPlayer = await database.createPlayer(newPlayerData);
-        return response.status(200).json( newPlayer );
+        database.createPlayer(newPlayerData).then((player: schema.NewPlayer) => {
+            //console.log(player);
+            response.setHeader('Content-Type', 'application/json');
+            response.status(200).json( player );
+        })
+        .catch((error: any) => {
+            console.error(error);
+            response.status(500).json({ error });
+        });
     }
     catch (error) {
         console.error(error);
-        return response.status(500).json({ error });
+        response.status(500).json({ error });
     }
 }

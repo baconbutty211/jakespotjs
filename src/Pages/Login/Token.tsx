@@ -33,10 +33,10 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
       throw new Error(errmsg);
     }
     else {
-      const newUser = await fetch(api_uri + '/upsert-user', {
+      const newUser = await fetch(api_uri + '/upsert-user.tsx', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token }),
+        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token }) 
       });
       const newUserData = await newUser.json();
       return newUserData.id;
