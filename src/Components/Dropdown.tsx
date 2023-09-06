@@ -20,7 +20,7 @@ export default function CustomDropdown({ id, title, items, onSelect }: DropdownP
         <Dropdown.Item
           key={index}
           onClick={() => onSelect(item)}
-          style={{ color: '#1db954' }} // Spotify green color for items
+          style={{ color: '#000' }} // Black color for items text
         >
           {item}
         </Dropdown.Item>

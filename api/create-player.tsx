@@ -24,7 +24,7 @@ export default function POST(request: VercelRequest, response: VercelResponse) {
 
         const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0 } as schema.Player;
         database.createPlayer(newPlayerData).then((player: schema.NewPlayer) => {
-            //console.log(player);
+            console.log(player);
             response.setHeader('Content-Type', 'application/json');
             response.status(200).json( player );
         })

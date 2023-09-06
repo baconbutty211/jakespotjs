@@ -1,7 +1,7 @@
 import Title from "../../Components/Title";
 import CreateGame from "../../Components/Sandbox/CreateGame";
 import CreatePlayer from "../../Components/Sandbox/CreatePlayer";
-import UpdateGame from "../../Components/Sandbox/UpdateGame";
+import { UpdateState } from "../../Components/Sandbox/UpdateGame";
 import LogsContainer from "../../Components/LogsContainer";
 
 export default function Sandbox() {
@@ -15,7 +15,7 @@ export default function Sandbox() {
         <CreatePlayer/>
         <br/>
         <br/>
-        <UpdateGame/>
+        <UpdateState/>
         <br/>
         <br/>
         <h4>Logs: </h4>

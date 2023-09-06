@@ -206,10 +206,15 @@ export async function findGameById(id: number) {
 export async function updateGame(update: schema.UpdateableGame) {
     if(update.id) {
         const db = getDatabase();
-        db.updateTable('games')
+        const result = await db.updateTable('games')
             .set(update)
             .where('id', '=', update.id)
+            .returningAll()
             .executeTakeFirst();
+        return result;
+    }
+    else {
+        throw new Error(`No game id provided, cannot update game.`)
     }
 }
 //#endregion
