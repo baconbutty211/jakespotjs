@@ -9,6 +9,11 @@ import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
+  // If user logged in:
+  //   Send to landing page
+  // Else:
+  //   Send to Login page
+
   return (
     <CookiesProvider>
       <div>

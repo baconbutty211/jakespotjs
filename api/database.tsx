@@ -78,7 +78,7 @@ export async function findPlayerByGameAndUserIds(user_id: number, game_id: numbe
             .where('game_id', '=', game_id)
             .execute();
         if(result.length > 1) { // Too many
-            console.error('More than one correct player returned. Something has gone wrong with the SQL query.');
+            console.error('More than one player returned. Something has gone wrong with the SQL query.');
             throw new Error('No unique correct player');
         }
         else if (result.length == 0) { // Not enough
@@ -310,10 +310,12 @@ LANGUAGE plpgsql;
 //#endregion
 export async function isGuessCorrect(game_id: number, guessed_player_id: number) {
     const db = getDatabase();
-    const result = await sql<boolean>`SELECT isCorrectGuess(${game_id}, ${guessed_player_id})`.execute(db);
-
+    //console.log(game_id, guessed_player_id);
+    const result: any = await sql`SELECT isGuessCorrect(${game_id}, ${guessed_player_id});`.execute(db);
+    
     if(result.rows.length === 1) {
-        return result.rows[0];
+        //console.log(result.rows[0]);
+        return result.rows[0].isguesscorrect as boolean;
     }
     else if (result.rows.length === 0) {
         throw new Error (`No results returned from SQL function 'isGuessCorrect(${game_id}, ${guessed_player_id})'`);
