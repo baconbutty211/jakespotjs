@@ -1,36 +1,56 @@
-import Login from "./Pages/Login/Authorize";
-import Token from "./Pages/Login/Token";
-import Landing from "./Pages/Landing/Landing";
-import Buffet from "./Pages/Buffet/Buffet";
-import Lobby from "./Pages/Lobby/Lobby";
-import Game from "./Pages/Game/Game";
-import Sandbox from "./Pages/Test/Sandbox";
+//import Login from "./pages/Login/Authorize";
+import Login from "./pages/Login/Login";
+import Token from "./pages/Login/Token";
+import Landing from "./pages/Landing/Landing";
+import Buffet from "./pages/Buffet/Buffet";
+import Lobby from "./pages/Lobby/Lobby";
+import Game from "./pages/Game/Game";
+import Sandbox from "./pages/Test/Sandbox";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
-function App() {
+export default function App() {
+  // PrivateRoutes Check
   // If user logged in:
-  //   Send to landing page
+  //   Send to requested page
   // Else:
   //   Send to Login page
 
   return (
     <CookiesProvider>
-      <div>
+      <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/Token" element={<Token />} />
+            <Route path="/" element={<Login />} /> {/* Need to change to home page.*/}
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Token" element={<Token />} />  {/* Soon to be deprecated.*/}
             <Route path="/Landing" element={<Landing />} />
-            <Route path="/Buffet" element={<Buffet />} />
-            <Route path="/Lobby" element={<Lobby />} />
-            <Route path="/Game" element={<Game />} />
-            <Route path="/Sandbox" element={<Sandbox />} />
+            
+            <Route path="/Buffet" element={
+              <PrivateRoute>
+                <Buffet />
+              </PrivateRoute>
+            } />
+            <Route path="/Lobby" element={
+              <PrivateRoute>
+                <Lobby />
+              </PrivateRoute>
+            } />
+            <Route path="/Game" element={
+              <PrivateRoute>
+                <Game />
+              </PrivateRoute>
+            } />
+            <Route path="/Sandbox" element={ 
+              <PrivateRoute>
+                <Sandbox />
+              </PrivateRoute> 
+            }/>
           </Routes>
         </Router>
-      </div>
+      </AuthProvider>
     </CookiesProvider>
   );
 }
-
-export default App;

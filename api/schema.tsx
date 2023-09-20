@@ -13,8 +13,9 @@ export interface Database {
 export interface UserTable {
     id: Generated<number>,
     email: string,
-    spotify_access_token: string | null,
-    spotify_refresh_token: string | null,
+    spotify_access_token: string,
+    spotify_refresh_token: string,
+    spotify_user_id: string,
 }
 export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;

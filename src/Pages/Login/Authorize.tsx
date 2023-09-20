@@ -1,6 +1,6 @@
-import Button from "../../Components/Button";
-import Title from "../../Components/Title";
-import { GetAuthCode } from "../../Components/Spotify/Authorization"
+import Button from "../../components/Button";
+import Title from "../../components/Title";
+import { GetAuthCode } from "../../requests/Spotify/Authorization"
 
 
 export default function Authorize() {

@@ -1,11 +1,11 @@
-import Title from "../../Components/Title";
-import CreateGame from "../../Components/Sandbox/CreateGame";
-import CreatePlayer from "../../Components/Sandbox/CreatePlayer";
-import RetrievePlayers from "../../Components/Sandbox/RetrievePlayers";
-import UpsertGuess from "../../Components/Sandbox/UpsertGuess";
-import { UpdateState } from "../../Components/Sandbox/UpdateGame";
-import LogsContainer from "../../Components/LogsContainer";
-import RetrieveUser from "../../Components/Sandbox/RetrieveUser";
+import Title from "../../components/Title";
+import CreateGame from "../../components/Sandbox/CreateGame";
+import CreatePlayer from "../../components/Sandbox/CreatePlayer";
+import RetrievePlayers from "../../components/Sandbox/RetrievePlayers";
+import UpsertGuess from "../../components/Sandbox/UpsertGuess";
+import { UpdateState } from "../../components/Sandbox/UpdateGame";
+import LogsContainer from "../../components/LogsContainer";
+import RetrieveUser from "../../components/Sandbox/RetrieveUser";
 
 export default function Sandbox() {
     return (

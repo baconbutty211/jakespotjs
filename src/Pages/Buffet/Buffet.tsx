@@ -1,34 +1,43 @@
-import Title from "../../Components/Title";
-import * as spotify from "../../Components/Spotify/Playlist";
-import { useCookies } from "react-cookie";
-import { api_uri } from "../../misc";
-
+import PlaylistCard from "../../components/PlaylistCard";
+import Title from "../../components/Title";
+import { GetUserPlaylists } from "../../requests/Spotify/Playlist";
+import { SpotifyWebApi } from "spotify-web-api-ts";
+import { useState } from "react";
 
 export default function Buffet() {
-  const [cookies, SetCookie] = useCookies(['user_id']);
-  async function getUser() {
-    const userData = await fetch(api_uri + '/retrieve-user.tsx', {
-      method: "POST",
-      headers: { 'Content-Type' : 'application/json' },
-      body: JSON.stringify({ id: cookies.user_id })
-    });
-    if (userData.ok) {
-        const user = await userData.json()
-        user.access_token
-    }
-    else {
-      throw new Error('Failed to retrieve user data.')
-    }
-  }
+  const image_size: number = 1;
+  const [playlists, setPlaylists] = useState([]);
 
-  const user = getUser();
-  const userPlaylists = spotify.GetUserPlaylists();
+  GetUserPlaylists()
+    .then((playlists) => setPlaylists(playlists.items))
+    .catch(err => console.error(err));
+  
   return (
     <>
       <Title>Buffet</Title>
-      <div className="card-deck">
-        {}
+      <div className="card-deck"> {
+        
+          playlists.map((playlist: any, index: number) => (
+            <PlaylistCard 
+              key={index}
+              onClick={() => handleSelectPlaylist(playlist.uri)}
+              img={{
+                src: playlist.images[playlist.images.length > 1 ? image_size : 0].url,
+                alt: "playlist image", 
+                height: 60,
+                width: 60,
+              }}
+              title={playlist.name}
+              text={`${playlist.description}`}
+            />
+          ))
+        }
       </div>
     </>
   );
+
+
+  function handleSelectPlaylist(playlist_uri: string) {
+  
+  }
 }

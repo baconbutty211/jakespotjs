@@ -1,4 +1,4 @@
-import Button from "../../Components/Button";
+import Button from "../../components/Button";
 
 interface LoginCredentials {
   client_id: string;

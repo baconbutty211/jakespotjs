@@ -1,6 +1,6 @@
-import Title from "../../Components/Title";
-import Button from "../../Components/Button";
-import Label from "../../Components/Label";
+import Title from "../../components/Title";
+import Button from "../../components/Button";
+import Label from "../../components/Label";
 
 export default function Landing() {
   function CreateGame() {

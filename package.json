@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@spotify/web-api-ts-sdk": "^1.1.2",
     "@vercel/node": "^2.15.8",
     "@vercel/postgres-kysely": "^0.4.1",
     "babel": "^6.23.0",
@@ -25,7 +26,8 @@
     "react-cookie": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.0.7",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.2",

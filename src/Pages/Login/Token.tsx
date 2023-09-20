@@ -1,5 +1,5 @@
-import { GetToken } from '../../Components/Spotify/Authorization';
-import { GetUserProfile } from '../../Components/Spotify/User';
+import { GetToken } from '../../requests/Spotify/Authorization';
+import { GetUserProfile } from '../../requests/Spotify/User';
 import { api_uri } from '../../misc'
 import { useCookies } from 'react-cookie';
 
@@ -11,15 +11,18 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
     throw Error("Invalid authorization code. Tried to request access token with the same authorization code");
   }
   else { // Authorization code is valid
-    console.log(data);
     const user = await GetUserProfile(data.access_token);
     const profile = await user.json();
-
+    console.log(profile);
+    
     const email = profile.email;
     const access_token = data.access_token;
-    console.log(access_token);
+    //console.log(access_token);
     const refresh_token = data.refresh_token;
-    console.log(refresh_token);
+    //console.log(refresh_token);
+    const spotify_user_id = profile.id;
+    console.log(spotify_user_id);
+
     if(!email || !access_token || !refresh_token) {
       let errmsg = "";
       if (!email)
@@ -36,7 +39,7 @@ async function ExchangeAuthCodeForAccessToken(authCode: string) {
       const newUser = await fetch(api_uri + '/upsert-user.tsx', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token }) 
+        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id }) 
       });
       const newUserData = await newUser.json();
       return newUserData.id;

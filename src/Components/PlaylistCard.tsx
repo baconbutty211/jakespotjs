@@ -6,10 +6,10 @@ interface PlaylistCardProps extends CardProps {
     onClick: () => void;
 }
 
-export default function PlaylistCard({ onClick, ...rest }: PlaylistCardProps) {
+export default function PlaylistCard({onClick, ...rest}: PlaylistCardProps) {
   return (
     <button onClick={onClick}>
-        <Card {...rest}/>
+        <Card {...rest} />
     </button>
   );
 };
