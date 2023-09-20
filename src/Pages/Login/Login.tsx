@@ -1,13 +1,12 @@
 import Button from "../../components/Button";
 
 import { redirect_uri, GetRandomInt } from "../../misc";
-import { SpotifyWebApi } from "spotify-web-api-ts";
+import { useSpotify } from "../../hooks/UseSpotify";
+import { AccessToken, Artist, Artists, ItemTypes, Scopes, SearchResults, SpotifyApi, UserProfile } from "@spotify/web-api-ts-sdk";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const client_secret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-const spotify_web_api = new SpotifyWebApi({clientId: client_id, clientSecret: client_secret, redirectUri: redirect_uri});
-
-import { useAuth } from "../../contexts/AuthContext";
 
 const queryParams = new URLSearchParams(window.location.search);
 const state = queryParams.get("state"); // Created in the authorization step
@@ -20,39 +19,68 @@ export default function Login() {
     //  Else:
     //      return ( Login button )
 
-    const user = useAuth();
-    console.log(user);
-    if ( user.is_logged_in ) {
-        return (
-            <>
-                <p>User Logged in</p>
-                <Button onClick={user.logout}> Logout of Spotify </Button>
-            </>
-        );
-    }
-    else if ( authCode ) {
-        user.login(authCode);
-        return (
-            <>
-                <p>User Logged in</p>
-                <Button onClick={user.logout}> Logout of Spotify </Button>
-            </>
-        )
-    }
-    else {
-        return <Button onClick={getAuthCode}>Login to Spotify</Button>;
-    }
+    const {sdk} = useAuth();
+    return sdk ? (<SpotifyUser sdk={sdk}/>) : (<></>); 
 }
 
+function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
+    const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
+    const [token, setToken] = useState<AccessToken | null>(null);
 
-async function getAuthCode() {
-    const state = GetRandomInt(1e16).toString();
-    sessionStorage.setItem("state", state);
+    useEffect(() =>{
+        (async () => {
+          const results = await sdk.currentUser.profile();
+          setProfile(() => results);   
+          const access_token: AccessToken | null = await sdk.getAccessToken();
+          setToken(() => access_token);
+        })();
+    }, [sdk]);
 
-    const url: string = spotify_web_api.getRefreshableAuthorizationUrl({ 
-        scope: ["user-read-email", "user-read-private"], 
-        state: state, 
-        show_dialog: true
-    });
-    window.location.href = url;
+    return (
+        <>
+            <h1> Welcome {profile?.display_name}</h1>
+            <p>You're logged in to Spotify</p>
+            <p>Access token: {token?.access_token}</p>
+        </>
+    );
+}
+
+function SpotifySearch({ sdk }: { sdk: SpotifyApi}) {
+  const [results, setResults] = useState<SearchResults<ItemTypes[]>>({} as SearchResults<ItemTypes[]>);
+
+  useEffect(() => {
+    (async () => {
+      const results = await sdk.search("The Beatles", ["artist"]);
+      setResults(() => results);      
+    })();
+  }, [sdk]);
+
+  // generate a table for the results
+  const tableRows = results.artists?.items.map((artist: Artist) => {
+    return (
+      <tr key={artist.id}>
+        <td>{artist.name}</td>
+        <td>{artist.popularity}</td>
+        <td>{artist.followers.total}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <>
+      <h1>Spotify Search for The Beatles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Popularity</th>
+            <th>Followers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableRows}
+        </tbody>
+      </table>
+    </>
+  )
 }

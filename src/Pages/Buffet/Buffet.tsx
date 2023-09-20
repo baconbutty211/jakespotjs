@@ -1,7 +1,6 @@
 import PlaylistCard from "../../components/PlaylistCard";
 import Title from "../../components/Title";
 import { GetUserPlaylists } from "../../requests/Spotify/Playlist";
-import { SpotifyWebApi } from "spotify-web-api-ts";
 import { useState } from "react";
 
 export default function Buffet() {

@@ -9,7 +9,7 @@ import Sandbox from "./pages/Test/Sandbox";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 export default function App() {
   // PrivateRoutes Check
@@ -26,7 +26,11 @@ export default function App() {
             <Route path="/" element={<Login />} /> {/* Need to change to home page.*/}
             <Route path="/Login" element={<Login />} />
             <Route path="/Token" element={<Token />} />  {/* Soon to be deprecated.*/}
-            <Route path="/Landing" element={<Landing />} />
+            <Route path="/Landing" element={
+            <PrivateRoute>
+              <Landing /> 
+            </PrivateRoute>
+            } />
             
             <Route path="/Buffet" element={
               <PrivateRoute>
