@@ -11,7 +11,7 @@ export default function PrivateRoute ( { children }: PrivateRouteProps ) {
       {(value) => 
         { 
           //console.log(value);
-          return value.is_logged_in ? children : <Navigate to='/Login'/>
+          return value.sdk === null ? <Navigate to='/Login'/> : children;
         }
       }
     </AuthContext.Consumer>

@@ -1,6 +1,5 @@
 //import Login from "./pages/Login/Authorize";
 import Login from "./pages/Login/Login";
-import Token from "./pages/Login/Token";
 import Landing from "./pages/Landing/Landing";
 import Buffet from "./pages/Buffet/Buffet";
 import Lobby from "./pages/Lobby/Lobby";
@@ -25,7 +24,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Login />} /> {/* Need to change to home page.*/}
             <Route path="/Login" element={<Login />} />
-            <Route path="/Token" element={<Token />} />  {/* Soon to be deprecated.*/}
             <Route path="/Landing" element={
             <PrivateRoute>
               <Landing /> 
