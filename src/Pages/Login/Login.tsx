@@ -4,7 +4,7 @@ import { redirect_uri, GetRandomInt } from "../../misc";
 import { useSpotify } from "../../hooks/UseSpotify";
 import { AccessToken, Artist, Artists, ItemTypes, Scopes, SearchResults, SpotifyApi, UserProfile } from "@spotify/web-api-ts-sdk";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext.tsx";
 
 const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 

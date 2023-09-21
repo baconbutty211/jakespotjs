@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { MaxInt, Playlist, SpotifyApi, User } from "@spotify/web-api-ts-sdk";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext.tsx";
 
-import * as backend from "../../requests/Backend";
+import * as backend from "../../requests/Backend.tsx";
 
-import Title from "../../components/Title";
-import PlaylistCard from "../../components/PlaylistCard";
+import Title from "../../components/Title.tsx";
+import PlaylistCard from "../../components/PlaylistCard.tsx";
 import { Navigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
