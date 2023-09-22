@@ -40,7 +40,6 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
         <>
             <h1> Welcome {profile?.display_name}</h1>
             <p>You're logged in to Spotify</p>
-            <p>Access token: {token?.access_token}</p>
         </>
     );
 }

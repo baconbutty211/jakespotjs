@@ -8,6 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
+import Home from "./pages/Home/Home.tsx";
 
 export default function App() {
   // PrivateRoutes Check
@@ -21,7 +22,7 @@ export default function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} /> {/* Need to change to home page.*/}
+            <Route path="/" element={<Home />} /> {/* Need to change to home page.*/}
             <Route path="/Login" element={<Login />} />
             <Route path="/Landing" element={
             <PrivateRoute>
