@@ -1,7 +1,7 @@
 //@ts-ignore
-import * as schema from "./schema.js";
+import * as schema from "./schema";
 //@ts-ignore
-import * as database from "./database.js";
+import * as database from "./database";
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Receives ???. Creates new ??? record. Updates ??? record. Returns new/updated ??? record.

@@ -1,7 +1,7 @@
 // @ts-ignore
-import * as database from './database.js';
+import * as database from './database';
 // @ts-ignore
-import * as schema from './schema.js';
+import * as schema from './schema';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Recieves user details (email, access token, refresh token, spotify_user_id). If user exists: current record is updated. if user does not exist: new record is created. Returns new/updated user record.

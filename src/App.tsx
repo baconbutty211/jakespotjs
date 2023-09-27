@@ -22,7 +22,7 @@ export default function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} /> {/* Need to change to home page.*/}
+            <Route path="/" element={<Home />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Landing" element={
             <PrivateRoute>
