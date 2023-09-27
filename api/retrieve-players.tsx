@@ -6,25 +6,20 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Returns all players in the game.
 // Body : { id }
-export default function POST(request: VercelRequest, response: VercelResponse) {
+export default async function POST(request: VercelRequest, response: VercelResponse) {
     try {
         const id = request.body.id as schema.Game["id"];
 
         if (!id) {
             throw new Error("game id required.");
         }
-
-        database.findPlayersByGameId(id).then((players: schema.Player[]) => {
-            players.forEach(player => {
-                console.log(player);
-            });
-            response.setHeader('Content-Type', 'application/json');
-            response.status(200).json( players );
-        })
-        .catch((error: any) => {
-            console.error(error);
-            response.status(500).json({ error });
+        
+        const players: schema.Player[] = await database.findPlayersByGameId(id);
+        players.forEach(player => {
+            console.log(player);
         });
+        response.setHeader('Content-Type', 'application/json');
+        response.status(200).json( players );
     }
     catch (error) {
         console.error(error);

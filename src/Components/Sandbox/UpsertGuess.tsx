@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import CustomDropdown from '../Dropdown';
 
 
-export default function UpdateState() {
+export default function UpsertGuess() {
     const [cookies, SetCookies] = useCookies(['game_id', 'user_id']);
     const [inputValue, setInputValue] = useState('');
     

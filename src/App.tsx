@@ -1,14 +1,14 @@
-import Login from "./pages/Login/Login.tsx";
-import Landing from "./pages/Landing/Landing.tsx";
-import Buffet from "./pages/Buffet/Buffet.tsx";
-import Lobby from "./pages/Lobby/Lobby.tsx";
-import Game from "./pages/Game/Game.tsx";
-import Sandbox from "./pages/Test/Sandbox.tsx";
+import Login from "./pages/Login/Login";
+import Landing from "./pages/Landing/Landing";
+import Buffet from "./pages/Buffet/Buffet";
+import Lobby from "./pages/Lobby/Lobby";
+import Game from "./pages/Game/Game";
+import Sandbox from "./pages/Test/Sandbox";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute.tsx";
-import { AuthProvider } from "./contexts/AuthContext.tsx";
-import Home from "./pages/Home/Home.tsx";
+import PrivateRoute from "./components/PrivateRoute";
+import { AuthProvider } from "./contexts/AuthContext";
+import Home from "./pages/Home/Home";
 
 export default function App() {
   // PrivateRoutes Check

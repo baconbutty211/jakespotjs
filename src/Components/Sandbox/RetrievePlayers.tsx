@@ -12,6 +12,7 @@ export default function RetrievePlayers() {
     );
 
     async function handleRetrievePlayers() {
+        console.log('Sending request to server (retrieve players)...');
         const playersData = await fetch(api_uri + '/retrieve-players.tsx', {
             method: "POST",
             headers: { 'Content-Type' : 'application/json' },
@@ -22,6 +23,10 @@ export default function RetrievePlayers() {
             players.forEach((player: any) => {
                 console.log(player);
             });
+        }
+        else {
+            console.error(`Failed to retrieve players data from server. body: { id: ${cookies.game_id}}. Response: ${await playersData.json()}`);
+            throw new Error(`Failed to retrieve players data from server. body: { id: ${cookies.game_id}}. Response: ${await playersData.json()}`);
         }
     }
 }

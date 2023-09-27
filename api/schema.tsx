@@ -21,7 +21,6 @@ export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;
 export type UpdateableUser = Updateable<UserTable>;
 
-
 export interface PlayerTable {
     id: Generated<number>,
     user_id: number,

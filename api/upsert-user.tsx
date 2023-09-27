@@ -13,16 +13,16 @@ export default async function PUT( request: VercelRequest, response: VercelRespo
     const refresh_token = request.body.refresh_token as string;
     const spotify_user_id = request.body.spotify_user_id as string;
 
-    if(!email || !access_token || !refresh_token) {
+    if(!email || !access_token || !refresh_token || !spotify_user_id) {
       let errmsg = "";
       if ( !email )
-        errmsg += "email ";
+        errmsg += "email, ";
       if( !access_token )
-        errmsg += "access token ";
+        errmsg += "access token, ";
       if( !refresh_token ) 
-        errmsg += "refresh token ";
+        errmsg += "refresh token, ";
       if( !spotify_user_id ) 
-        errmsg += "spotify user id";
+        errmsg += "spotify user id, ";
 
 
       errmsg += "required"

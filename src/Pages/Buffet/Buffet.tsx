@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { MaxInt, Playlist, SpotifyApi, User } from "@spotify/web-api-ts-sdk";
-import { useAuth } from "../../contexts/AuthContext.tsx";
+import { useAuth } from "../../contexts/AuthContext";
 
-import * as backend from "../../requests/Backend.tsx";
+import * as backend from "../../requests/Backend";
 
-import Title from "../../components/Title.tsx";
-import PlaylistCard from "../../components/PlaylistCard.tsx";
-import { Navigate } from "react-router-dom";
+import Title from "../../components/Title";
+import PlaylistCard from "../../components/PlaylistCard";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 
@@ -33,7 +33,8 @@ async function GetUserPlaylists(api: SpotifyApi) {
 
 export default function Buffet() {
     const image_size: number = 1;
-    const [cookies, SetCookie] = useCookies(['user_id', 'game_id']);
+    const navigate = useNavigate();
+    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'player_id']);
     
     const [playlists, setPlaylists] = useState<Playlist[]>([] as Playlist[]);
     const { sdk: api } = useAuth();
@@ -71,11 +72,14 @@ export default function Buffet() {
 
 
     async function handleSelectPlaylist(playlist_uri: string) {
-        // Send request to backend (set playlist uri)
+        // Upsert player
         const playlist_id = playlist_uri.split(':')[2];
-        const playerData = await backend.CreatePlayer(cookies.user_id, cookies.game_id, playlist_id);
-        console.log(playerData);
+        const playerData = await backend.UpsertPlayer(cookies.user_id, cookies.game_id, playlist_id);
+        //console.log(playerData);
+        
+        // Set player_id cookie
+        SetCookie("player_id", playerData.id); 
         // Redirect to lobby
-        return <Navigate to='/Lobby'/>;
+        navigate("/Lobby");
     }
 }

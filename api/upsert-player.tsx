@@ -1,12 +1,12 @@
 // @ts-ignore
-import * as database from './database.tsx';
+import * as database from './database.js';
 // @ts-ignore
-import * as schema from './schema.tsx';
+import * as schema from './schema.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
-// Creates new player record. Returns new player record
+// Recieves player details (user_id, game_id, spotify_playlist_id). If player exists: current record is updated. if player does not exist: new record is created. Returns new/updated player record.
 // Body : { user_id, game_id, spotify_playlist_id }
-export default function POST(request: VercelRequest, response: VercelResponse) {
+export default async function PUT(request: VercelRequest, response: VercelResponse) {
     try {
         const user_id = request.body.user_id as schema.Player["user_id"];
         const game_id = request.body.game_id as schema.Player["game_id"];
@@ -23,15 +23,10 @@ export default function POST(request: VercelRequest, response: VercelResponse) {
         }
 
         const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0 } as schema.Player;
-        database.createPlayer(newPlayerData).then((player: schema.NewPlayer) => {
-            console.log(player);
-            response.setHeader('Content-Type', 'application/json');
-            response.status(200).json( player );
-        })
-        .catch((error: any) => {
-            console.error(error);
-            response.status(500).json({ error });
-        });
+        const newPlayer: schema.NewPlayer = await database.upsertPlayer(newPlayerData);
+        console.log(newPlayer);
+        response.setHeader('Content-Type', 'application/json');
+        response.status(200).json( newPlayer );
     }
     catch (error) {
         console.error(error);

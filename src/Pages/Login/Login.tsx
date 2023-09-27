@@ -4,7 +4,10 @@ import { redirect_uri, GetRandomInt } from "../../misc";
 import { useSpotify } from "../../hooks/UseSpotify";
 import { AccessToken, Artist, Artists, ItemTypes, Scopes, SearchResults, SpotifyApi, UserProfile } from "@spotify/web-api-ts-sdk";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext.tsx";
+import { useAuth } from "../../contexts/AuthContext";
+import { UpsertUser } from "../../requests/Backend";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 
@@ -12,36 +15,30 @@ const queryParams = new URLSearchParams(window.location.search);
 const state = queryParams.get("state"); // Created in the authorization step
 const authCode = queryParams.get("code");
 export default function Login() {
-    //  If userContext is already logged in:
-    //      return ( User already logged in, Logout button )
-    //  If authcode is in Url params:
-    //      Login with userContext
-    //  Else:
-    //      return ( Login button )
-
     const {sdk} = useAuth();
     return sdk ? (<SpotifyUser sdk={sdk}/>) : (<></>); 
 }
 
 function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
+    const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['user_id']);
     const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
-    const [token, setToken] = useState<AccessToken | null>(null);
+    //const [token, setToken] = useState<AccessToken | null>(null);
 
     useEffect(() =>{
         (async () => {
-          const results = await sdk.currentUser.profile();
-          setProfile(() => results);   
-          const access_token: AccessToken | null = await sdk.getAccessToken();
-          setToken(() => access_token);
+            const results = await sdk.currentUser.profile();
+            const token: AccessToken | null = await sdk.getAccessToken(); 
+            setProfile(() => results);   
+            // Upsert user
+            console.log(results);
+            const userData = await UpsertUser(results.email, token?.access_token, token?.refresh_token, results.id);
+            setCookie("user_id", userData.id);
         })();
     }, [sdk]);
-
-    return (
-        <>
-            <h1> Welcome {profile?.display_name}</h1>
-            <p>You're logged in to Spotify</p>
-        </>
-    );
+    
+    navigate('/');
+    return (<> </>);
 }
 
 function SpotifySearch({ sdk }: { sdk: SpotifyApi}) {

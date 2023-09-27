@@ -50,7 +50,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
                 });
             }
         }
-        const updatedGame = await database.updateGame( updateGameData );
+        const updatedGame: schema.Game = await database.updateGame( updateGameData );
         console.log(updatedGame);
         return response.status(200).json( updatedGame );
     }

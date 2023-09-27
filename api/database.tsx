@@ -147,6 +147,29 @@ export async function updatePlayer(update: schema.UpdateablePlayer) {
             .executeTakeFirst();
     }
 }
+export async function upsertPlayer(player: schema.NewPlayer) {
+    const db = getDatabase();
+    const result = await db.insertInto('players')
+        .values(player)
+        .onConflict((oc) => 
+            oc.columns(['user_id', 'game_id'])
+            .doUpdateSet(player)
+        )
+        .returningAll()
+        .execute();
+
+    if (result.length > 1) {
+        console.error(`Too many players returned. ${result}`);
+        throw new Error(`Too many players returned. ${result}`);
+    }
+    else if (result.length == 0) {
+        console.error(`No players returned. ${result}`);
+        throw new Error(`No player with user_id=${player.user_id} and game_id=${player.game_id} exists.`);
+    }
+    else {
+        return result[0];
+    }
+}
 export async function incrementPlayerScore(id: number, increment: number = 1) {
     const db = getDatabase();
     return await db.updateTable('players')
@@ -211,7 +234,7 @@ export async function updateGame(update: schema.UpdateableGame) {
             .where('id', '=', update.id)
             .returningAll()
             .executeTakeFirst();
-        return result;
+        return result as schema.Game;
     }
     else {
         throw new Error(`No game id provided, cannot update game.`)
