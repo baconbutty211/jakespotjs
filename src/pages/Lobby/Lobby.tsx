@@ -1,4 +1,4 @@
-import Title from "../../components/Title.tsx";
+import Title from "../../components/Title";
 
 export default function Lobby() {
   return <Title>Lobby</Title>;
