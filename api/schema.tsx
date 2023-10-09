@@ -1,5 +1,4 @@
-import { sql } from 'kysely';
-import { Generated, Insertable, Selectable, Updateable, Expression, OperationNode } from 'kysely'
+import { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
 export interface Database {
     users: UserTable,

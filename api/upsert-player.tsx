@@ -1,3 +1,5 @@
+//const database = require('./database.tsx');
+
 // @ts-ignore
 import * as database from './database.tsx';
 // @ts-ignore
@@ -6,6 +8,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Recieves player details (user_id, game_id, spotify_playlist_id). If player exists: current record is updated. if player does not exist: new record is created. Returns new/updated player record.
 // Body : { user_id, game_id, spotify_playlist_id }
+// Returns new/updated player record
 export default async function PUT(request: VercelRequest, response: VercelResponse) {
     try {
         const user_id = request.body.user_id as schema.Player["user_id"];
