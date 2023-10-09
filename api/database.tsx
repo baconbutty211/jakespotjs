@@ -1,7 +1,7 @@
 import { sql } from 'kysely';
 import { createKysely } from '@vercel/postgres-kysely';
 // @ts-ignore
-import * as schema from './schema'
+import * as schema from './schema.tsx'
 
 function getDatabase(){
     return createKysely<schema.Database>();

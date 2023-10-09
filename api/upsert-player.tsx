@@ -1,7 +1,7 @@
 // @ts-ignore
-import * as database from './database';
+import * as database from './database.tsx';
 // @ts-ignore
-import * as schema from './schema';
+import * as schema from './schema.tsx';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Recieves player details (user_id, game_id, spotify_playlist_id). If player exists: current record is updated. if player does not exist: new record is created. Returns new/updated player record.
