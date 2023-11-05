@@ -1,5 +1,3 @@
-//const database = require('./database.tsx');
-
 // @ts-ignore
 import * as database from './database.tsx';
 // @ts-ignore

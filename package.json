@@ -27,7 +27,7 @@
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.11.2",
         "styled-components": "^6.0.7",
-        "vercel": "^32.3.0",
+        "vercel": "^32.5.0",
         "zod": "^3.22.2"
     },
     "devDependencies": {

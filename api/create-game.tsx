@@ -12,6 +12,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
         console.log("Creating new game...")
         const newGameData = { state: "lobby" } as schema.Game;
         const newGame: schema.NewGame = await database.createGame(newGameData);
+        console.log(`Created game {id:${newGame.id}}`);
         return response.status(200).json( newGame );
     }
     catch (error) {
