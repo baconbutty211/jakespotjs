@@ -1,7 +1,7 @@
 // @ts-ignore
-import * as database from './database';
+import * as database from './database.ts';
 // @ts-ignore
-import * as schema from './schema.tsx';
+import * as schema from './schema.ts';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Creates new game record. Returns new game record

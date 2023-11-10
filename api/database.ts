@@ -1,9 +1,9 @@
-import { sql } from 'kysely';
+import { ExpressionBuilder, sql } from 'kysely';
 import { createKysely } from '@vercel/postgres-kysely';
 // @ts-ignore
-import * as schema from './schema.tsx';
+import * as schema from './schema.js';
 
-function getDatabase(){
+function getDatabase() {
     return createKysely<schema.Database>();
 }
 
@@ -26,9 +26,9 @@ export async function upsertUser(user: schema.NewUser) {
     const db = getDatabase();
     const result = await db.insertInto('users')
         .values(user)
-        .onConflict((oc) => 
+        .onConflict((oc) =>
             oc.column('email')
-            .doUpdateSet(user)
+                .doUpdateSet(user)
         )
         .returningAll()
         .execute();
@@ -64,7 +64,7 @@ export async function findPlayerById(id: number) {
         .execute();
 }
 export async function findPlayerByGameAndUserIds(user_id: number, game_id: number) {
-    if(!game_id) {
+    if (!game_id) {
         throw new Error("Game Id required");
     }
     else if (!user_id) {
@@ -77,21 +77,21 @@ export async function findPlayerByGameAndUserIds(user_id: number, game_id: numbe
             .where('user_id', '=', user_id)
             .where('game_id', '=', game_id)
             .execute();
-        if(result.length > 1) { // Too many
+        if (result.length > 1) { // Too many
             console.error('More than one player returned. Something has gone wrong with the SQL query.');
             throw new Error('No unique correct player');
         }
         else if (result.length == 0) { // Not enough
             console.error('No correct player returned. Something has gone wrong in the game logic.');
             throw new Error('No correct player available');
-            }
+        }
         else { // Just right
             return result[0];
         }
     }
 }
 export async function findPlayersByGameId(game_id: number) {
-    if(game_id) {    
+    if (game_id) {
         const db = getDatabase();
         return await db.selectFrom('players')
             .selectAll()
@@ -103,32 +103,32 @@ export async function findPlayersByGameId(game_id: number) {
     }
 }
 export async function findPlayersByCorrect(game_id: number) {
-    if(game_id){    
+    if (game_id) {
         const db = getDatabase();
         return await db.selectFrom('players')
-        .selectAll()
-        .innerJoin('guesses', 'players.id', 'guesses.player_id')
-        .where('guesses.is_correct', "=", true)
-        .execute();
+            .selectAll()
+            .innerJoin('guesses', 'players.id', 'guesses.player_id')
+            .where('guesses.is_correct', "=", true)
+            .execute();
     }
 }
 export async function findCorrectPlayerId(game_id: number) {
-    if(game_id) {    
+    if (game_id) {
         const db = getDatabase();
         const result = await db.selectFrom('songs')
             .select('songs.player_id')
             .innerJoin('games', "songs.id", 'games.current_song_id')
-            .where('games.id' , '=', game_id)
+            .where('games.id', '=', game_id)
             .execute();
-        
-        if(result.length > 1) { // Too many correct players
+
+        if (result.length > 1) { // Too many correct players
             console.error('More than one correct player returned. Something has gone wrong with the SQL query.');
             throw new Error('No unique correct player');
         }
         else if (result.length == 0) { // Not enough correct players
             console.error('No correct player returned. Something has gone wrong in the game logic.');
             throw new Error('No correct player available');
-         }
+        }
         else { // Just right: 1 correct player
             return result[0].player_id;
         }
@@ -138,7 +138,7 @@ export async function findCorrectPlayerId(game_id: number) {
     }
 }
 export async function updatePlayer(update: schema.UpdateablePlayer) {
-    if(update.id) {
+    if (update.id) {
         const db = getDatabase();
         return db.updateTable('players')
             .set(update)
@@ -151,9 +151,9 @@ export async function upsertPlayer(player: schema.NewPlayer) {
     const db = getDatabase();
     const result = await db.insertInto('players')
         .values(player)
-        .onConflict((oc) => 
+        .onConflict((oc) =>
             oc.columns(['user_id', 'game_id'])
-            .doUpdateSet(player)
+                .doUpdateSet(player)
         )
         .returningAll()
         .execute();
@@ -173,7 +173,7 @@ export async function upsertPlayer(player: schema.NewPlayer) {
 export async function incrementPlayerScore(id: number, increment: number = 1) {
     const db = getDatabase();
     return await db.updateTable('players')
-        .set((eb) => ({
+        .set((eb: any) => ({
             score: eb('score', '+', increment)
         }))
         .where('id', '=', id)
@@ -227,7 +227,7 @@ export async function findGameById(id: number) {
     }
 }
 export async function updateGame(update: schema.UpdateableGame) {
-    if(update.id) {
+    if (update.id) {
         const db = getDatabase();
         const result = await db.updateTable('games')
             .set(update)
@@ -269,16 +269,16 @@ export async function findLatestGuessesByGameId(game_id: number) {
     const result = await db.selectFrom('guesses')
         .innerJoin(
             (eb) => eb
-            .selectFrom('players')
-            .innerJoin('games', 'games.id', 'players.game_id')
-            .select(['players.id as id', 'players.game_id', 'games.current_song_id as csi'])
-            .where('games.id', '=', game_id)
-            .as('game_players'),
+                .selectFrom('players')
+                .innerJoin('games', 'games.id', 'players.game_id')
+                .select(['players.id as id', 'players.game_id', 'games.current_song_id as csi'])
+                .where('games.id', '=', game_id)
+                .as('game_players'),
             (join) => join
-            .onRef('guesses.player_id', '=', 'game_players.id')
-            .onRef('guesses.current_song_id', '=', 'game_players.csi'),
+                .onRef('guesses.player_id', '=', 'game_players.id')
+                .onRef('guesses.current_song_id', '=', 'game_players.csi'),
         )
-        .select(['guesses.player_id','guesses.is_correct'])
+        .select(['guesses.player_id', 'guesses.is_correct'])
         .execute();
     return result;
 }
@@ -286,9 +286,9 @@ export async function upsertGuess(guess: schema.NewGuess) {
     const db = getDatabase();
     const result = await db.insertInto('guesses')
         .values(guess)
-        .onConflict((oc) => 
+        .onConflict((oc) =>
             oc.constraint('guesses_unique')
-            .doUpdateSet(guess)
+                .doUpdateSet(guess)
         )
         .returningAll()
         .execute();
@@ -335,16 +335,16 @@ export async function isGuessCorrect(game_id: number, guessed_player_id: number)
     const db = getDatabase();
     //console.log(game_id, guessed_player_id);
     const result: any = await sql`SELECT isGuessCorrect(${game_id}, ${guessed_player_id});`.execute(db);
-    
-    if(result.rows.length === 1) {
+
+    if (result.rows.length === 1) {
         //console.log(result.rows[0]);
         return result.rows[0].isguesscorrect as boolean;
     }
     else if (result.rows.length === 0) {
-        throw new Error (`No results returned from SQL function 'isGuessCorrect(${game_id}, ${guessed_player_id})'`);
+        throw new Error(`No results returned from SQL function 'isGuessCorrect(${game_id}, ${guessed_player_id})'`);
     }
     else if (result.rows.length > 1) {
-        throw new Error (`Too many results returned from SQL function 'isGuessCorrect(${game_id}, ${guessed_player_id})'`);
+        throw new Error(`Too many results returned from SQL function 'isGuessCorrect(${game_id}, ${guessed_player_id})'`);
     }
     else {
         throw new Error(`Something has gone really wrong. Result returned is null, ${result}`);
@@ -353,7 +353,7 @@ export async function isGuessCorrect(game_id: number, guessed_player_id: number)
 
 //#region Get Correct Player Id SQL
 /*
-CREATE OR REPLACE FUNCTION getCorrectPlayer(gameId int) RETURNS int AS 
+CREATE OR REPLACE FUNCTION getCorrectPlayer(gameId int) RETURNS int AS
 $BODY$
 DECLARE correctPlayerId int;
 BEGIN
