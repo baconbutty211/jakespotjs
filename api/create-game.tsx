@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as database from './database.tsx';
+import * as database from './database';
 // @ts-ignore
 import * as schema from './schema.tsx';
 import { VercelRequest, VercelResponse } from '@vercel/node';
