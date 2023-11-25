@@ -16,22 +16,21 @@ export async function CreateGame() {
     }
 }
 
-export async function RetrievePlayers() {
-    const [cookies, SetCookie] = useCookies(['game_id']);
+export async function RetrievePlayers(game_id: number) {
     const result = await fetch(api_uri + '/retrieve-players.tsx', {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ id: cookies.game_id })
+        body: JSON.stringify({ id: game_id })
     });
     if (result.ok) {
         const playersData: schema.Player[] = await result.json();
         playersData.forEach((player: schema.Player) => {
-            console.log(player);
+            //console.log(player);
         });
         return playersData;
     }
     else {
-        throw new Error(`Failed to retrieve players. body: {id: ${cookies.game_id}}`);
+        throw new Error(`Failed to retrieve players. body: {id: ${game_id}}`);
     }
 }
 

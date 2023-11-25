@@ -61,5 +61,4 @@ export default function Landing() {
     function handleInputChange(e: { target: { value: SetStateAction<string>; }; }) {
         setInputValue(e.target.value);
     }
-
 }

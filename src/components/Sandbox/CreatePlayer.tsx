@@ -1,6 +1,7 @@
 import Button from '../Button';
 import { api_uri } from '../../misc';
 import { useCookies } from 'react-cookie';
+import * as api from '../../requests/Backend';
 
 
 export default function CreatePlayer() {
@@ -12,15 +13,8 @@ export default function CreatePlayer() {
     );
 
     async function handleCreatePlayer() {
-        const newPlayer = await fetch(api_uri + '/create-player.tsx', {
-            method: "POST",
-            headers: { 'Content-Type' : 'application/json' },
-            body: JSON.stringify({ user_id: cookies.user_id, game_id: cookies.game_id, spotify_playlist_id: 'sandbox-spi'})
-        }); 
-        if (newPlayer.ok) {
-            const newPlayerData = await newPlayer.json()
-            console.log(newPlayerData);
-            SetCookie('player_id', newPlayerData.id);
-        }
+        const newPlayer = await api.UpsertPlayer(cookies.user_id, cookies.game_id, 'sandbox-spi');
+        SetCookie('player_id', newPlayer.id);
+        console.log(newPlayer);
     }
 }

@@ -9,11 +9,11 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 export default async function POST(request: VercelRequest, response: VercelResponse) {
     try {
         const id = request.body.id as schema.Game["id"];
-
+        
         if (!id) {
             throw new Error("game id required.");
         }
-        
+
         const players: schema.Player[] = await database.findPlayersByGameId(id);
         players.forEach(player => {
             console.log(player);

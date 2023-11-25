@@ -5,7 +5,6 @@ export const client_secret : string = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
 
 
 function IsDevMode(){
-    //console.log( import.meta.env.MODE === 'development' ? import.meta.env.VITE_DEV_REDIRECT_URI : import.meta.env.VITE_PRODUCT_REDIRECT_URI );
     return import.meta.env.MODE === 'development';
 }
 
