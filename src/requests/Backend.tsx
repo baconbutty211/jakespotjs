@@ -12,7 +12,7 @@ export async function CreateGame() {
         return newGameData;
     }
     else {
-        throw new Error("Failed to create new game.");
+        throw new Error(`Failed to create new game. ${result.body}`);
     }
 }
 
