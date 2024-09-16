@@ -17,7 +17,7 @@ export const AuthContext = createContext<null | any>(null);
 // Context Provider
 export function AuthProvider({ children } : AuthContextProps) {
     const [sdk, loading] = useSpotify(client_id, redirect_uri, Scopes.all);
-    return loading ? <img placeholder='Loading Spotify API... Imagine a spinwheel'/> : <AuthContext.Provider value={{sdk: sdk}}>{children}</AuthContext.Provider>;
+    return loading ? <img aria-placeholder='Loading Spotify API... Imagine a spinwheel'/> : <AuthContext.Provider value={{sdk: sdk}}>{children}</AuthContext.Provider>;
 };
 
 // Context Consumer
