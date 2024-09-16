@@ -4,6 +4,8 @@ import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import Pusher from 'pusher-js';
 import { useCookies } from "react-cookie";
+import Button from "../../components/Button";
+import { updateGame } from "../../../api/database";
 
 
 export default function Lobby() {
@@ -35,8 +37,7 @@ export default function Lobby() {
     async function fetchPlayers() {
         try {
             setLoading(true);
-            // Assuming you have an API endpoint to get the list of players
-            const data: Player[] = await api.RetrievePlayers(cookies.game_id);
+            const data: Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
 
             setPlayers(data); // Update the players state with the fetched data
             setLoading(false);
@@ -44,6 +45,10 @@ export default function Lobby() {
             console.error('Error fetching players:', error);
             setLoading(false);
         }
+    }
+
+    async function startGame() {
+        updateGame({ id: cookies.game_id, state: "guessing" });
     }
 
     if(loading){
@@ -70,7 +75,9 @@ export default function Lobby() {
                     </tr> 
                 ))}
             </tbody>
-      </table>
+        </table>
+        <br/>
+        <Button onClick={startGame}>Start Game</Button>
     </>);
 
 };
