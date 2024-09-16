@@ -4,7 +4,7 @@ import * as schema from "../../api/schema";
 
 
 export async function CreateGame() {
-    const result = await fetch(api_uri + '/create-game.tsx', {
+    const result = await fetch(api_uri + '/create-game', {
         method: "POST"
     }); 
     if (result.ok) {
@@ -17,7 +17,7 @@ export async function CreateGame() {
 }
 
 export async function RetrievePlayers(game_id: number) {
-    const result = await fetch(api_uri + '/retrieve-players.tsx', {
+    const result = await fetch(api_uri + '/retrieve-players', {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ id: game_id })
@@ -37,7 +37,7 @@ export async function RetrievePlayers(game_id: number) {
 async function RetrieveUser() {
     const [cookies, SetCookie] = useCookies(['user_id']);
 
-    const result = await fetch(api_uri + '/retrieve-user.tsx', {
+    const result = await fetch(api_uri + '/retrieve-user', {
     method: "POST",
     headers: { 'Content-Type' : 'application/json' },
     body: JSON.stringify({ id: cookies.user_id })
@@ -54,7 +54,7 @@ async function RetrieveUser() {
 
 async function UpdateGame(new_state: string) {
     const [cookies, SetCookie] = useCookies(['game_id']);
-    const result = await fetch(api_uri + '/update-game.tsx', {
+    const result = await fetch(api_uri + '/update-game', {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ id: cookies.game_id, state: new_state })
@@ -70,7 +70,7 @@ async function UpdateGame(new_state: string) {
 }
 
 export async function UpsertUser(email: string, access_token: string | undefined, refresh_token: string | undefined, spotify_user_id: string) {
-    const result = await fetch(api_uri + '/upsert-user.tsx', {
+    const result = await fetch(api_uri + '/upsert-user', {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id })
@@ -87,7 +87,7 @@ export async function UpsertUser(email: string, access_token: string | undefined
 
 export async function UpsertPlayer(user_id: number, game_id: number, playlist_uri: string) {
     
-    const result = await fetch(api_uri + '/upsert-player.tsx', {
+    const result = await fetch(api_uri + '/upsert-player', {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ user_id: user_id, game_id: game_id, spotify_playlist_id: playlist_uri })
@@ -103,7 +103,7 @@ export async function UpsertPlayer(user_id: number, game_id: number, playlist_ur
 
 async function UpsertGuess(guessed_player_id: number) {
     const [cookies, SetCookie] = useCookies(['user_id', 'game_id']);
-    const result = await fetch(api_uri + '/upsert-guess.tsx', {
+    const result = await fetch(api_uri + '/upsert-guess', {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ game_id: cookies.game_id, user_id: cookies.user_id, guessed_player_id: guessed_player_id })
