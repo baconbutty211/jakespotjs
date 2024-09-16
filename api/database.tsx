@@ -15,13 +15,6 @@ export async function findUserById(id: number) {
         .where('id', "=", id)
         .execute();
 }
-export async function findUserByEmail(email: string) {
-    const db = getDatabase();
-    return await db.selectFrom('users')
-        .selectAll()
-        .where('email', "=", email)
-        .execute();
-}
 export async function upsertUser(user: schema.NewUser) {
     const db = getDatabase();
     const result = await db.insertInto('users')
