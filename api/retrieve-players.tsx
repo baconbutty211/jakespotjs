@@ -19,7 +19,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
             console.log(player);
         });
         response.setHeader('Content-Type', 'application/json');
-        response.status(200).json( players );
+        response.status(200).json({ players: players });
     }
     catch (error) {
         console.error(error);
