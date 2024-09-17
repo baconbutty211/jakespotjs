@@ -1,26 +1,17 @@
-import Button from '../Button';
-import Input from '../Input';
-import { api_uri } from '../../misc';
-import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 import CustomDropdown from '../Dropdown';
+import * as api from '../../requests/Backend';
+import { useCookies } from 'react-cookie';
 
 
 export function UpdateState() {
-    const [selectedItem, setSelectedItem] = useState<string | null>(null);
     const [cookies, SetCookies] = useCookies(['game_id']);
     
     async function handleUpdateGame(selectedItem: string | null) {
-        setSelectedItem(selectedItem);
-
-        const updatedGame = await fetch(api_uri + '/update-game.tsx', {
-            method: "POST",
-            headers: { 'Content-Type' : 'application/json' },
-            body: JSON.stringify({ id: cookies.game_id, state: selectedItem })
-        }); 
-        if (updatedGame.ok) {
-            const updatedGameData = await updatedGame.json();
-            console.log(updatedGameData);
+        if(selectedItem === null)
+            return;
+        else {
+            const updatedGame = await api.UpdateGame(cookies.game_id, selectedItem);
+            console.log(updatedGame);
         }
     }
 

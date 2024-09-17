@@ -1,5 +1,5 @@
 import Button from '../Button';
-import { api_uri } from '../../misc';
+import * as api from '../../requests/Backend';
 import { useCookies } from 'react-cookie';
 
 
@@ -12,17 +12,7 @@ export default function RetrieveUser() {
     )
   
     async function handleRetrieveUser() {
-        const userData = await fetch(api_uri + '/retrieve-user.tsx', {
-        method: "POST",
-        headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ id: cookies.user_id })
-        });
-        if (userData.ok) {
-            const user = await userData.json()
-            console.log(user);
-        }
-        else {
-            throw new Error('Failed to retrieve user data.')
-        }
+        const user = await api.RetrieveUser(cookies.user_id); 
+        console.log(user);
   }
 }

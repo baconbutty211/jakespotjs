@@ -1,9 +1,8 @@
 import Button from '../Button';
 import Input from '../Input';
-import { api_uri } from '../../misc';
+import * as api from '../../requests/Backend';
 import { SetStateAction, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import CustomDropdown from '../Dropdown';
 
 
 export default function UpsertGuess() {
@@ -16,16 +15,9 @@ export default function UpsertGuess() {
     
 
     async function handleUpsertGuess() {
-        const guessed_player_id = inputValue;
-        const updatedGame = await fetch(api_uri + '/upsert-guess.tsx', {
-            method: "POST",
-            headers: { 'Content-Type' : 'application/json' },
-            body: JSON.stringify({ game_id: cookies.game_id, user_id: cookies.user_id, guessed_player_id: guessed_player_id })
-        }); 
-        if (updatedGame.ok) {
-            const updatedGameData = await updatedGame.json();
-            console.log(updatedGameData);
-        }
+        const guessed_player_id: number = parseInt(inputValue);
+        const updatedGuess = await api.UpsertGuess(cookies.user_id, cookies.game_id, guessed_player_id);
+        console.log(updatedGuess);
     }
 
 

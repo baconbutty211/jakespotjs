@@ -1,5 +1,4 @@
 import Button from '../Button';
-import { api_uri } from '../../misc';
 import { useCookies } from 'react-cookie';
 import * as api from '../../requests/Backend';
 

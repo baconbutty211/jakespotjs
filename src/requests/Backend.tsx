@@ -36,14 +36,12 @@ export async function RetrievePlayers(game_id: number) {
     }
 }
 
-async function RetrieveUser() {
-    const [cookies, SetCookie] = useCookies(['user_id']);
-
+export async function RetrieveUser(user_id: number) {
     const uri = GetApiUri('retrieve-user');
     const result = await fetch(uri, {
     method: "POST",
     headers: { 'Content-Type' : 'application/json' },
-    body: JSON.stringify({ id: cookies.user_id })
+    body: JSON.stringify({ id: user_id })
     });
     if (result.ok) {
         const userData: schema.User = await result.json();
@@ -51,17 +49,16 @@ async function RetrieveUser() {
         return userData;
     }
     else {
-        throw new Error(`Failed to retrieve user data. body: {id: ${cookies.user_id}}`);
+        throw new Error(`Failed to retrieve user data. body: {id: ${user_id}}`);
     }
 }
 
-async function UpdateGame(new_state: string) {
-    const [cookies, SetCookie] = useCookies(['game_id']);
+export async function UpdateGame(game_id: number, new_state: string) {
     const uri = GetApiUri('update-game');
     const result = await fetch(uri, {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ id: cookies.game_id, state: new_state })
+        body: JSON.stringify({ id: game_id, state: new_state })
     }); 
     if (result.ok) {
         const updatedGameData: schema.Game = await result.json();
@@ -69,7 +66,7 @@ async function UpdateGame(new_state: string) {
         return updatedGameData;
     }
     else {
-        throw new Error(`Failed to update game state. body: {id: ${cookies.game_id}, state: ${new_state}`);
+        throw new Error(`Failed to update game state. body: {id: ${game_id}, state: ${new_state}`);
     }
 }
 
@@ -106,14 +103,13 @@ export async function UpsertPlayer(user_id: number, game_id: number, playlist_ur
     }
 }
 
-async function UpsertGuess(guessed_player_id: number) {
-    const [cookies, SetCookie] = useCookies(['user_id', 'game_id']);
+export async function UpsertGuess(user_id: number, game_id: number, guessed_player_id: number) {
     
     const uri = GetApiUri('upsert-guess');
     const result = await fetch(uri, {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ game_id: cookies.game_id, user_id: cookies.user_id, guessed_player_id: guessed_player_id })
+        body: JSON.stringify({ game_id: game_id, user_id: user_id, guessed_player_id: guessed_player_id })
     }); 
     if (result.ok) {
         const updatedGameData: schema.Guess = await result.json();
@@ -121,6 +117,6 @@ async function UpsertGuess(guessed_player_id: number) {
         return updatedGameData;
     }
     else {
-        throw new Error(`Failed to upsert guess. body: {game_id: ${cookies.game_id}, user_id: ${cookies.user_id}, guessed_player_id: ${guessed_player_id}`);
+        throw new Error(`Failed to upsert guess. body: {game_id: ${game_id}, user_id: ${user_id}, guessed_player_id: ${guessed_player_id}`);
     }
 }
