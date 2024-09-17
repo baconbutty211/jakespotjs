@@ -1,4 +1,5 @@
 import Title from "../../components/Title";
+import Hello from "../../components/Sandbox/Hello";
 import CreateGame from "../../components/Sandbox/CreateGame";
 import CreatePlayer from "../../components/Sandbox/CreatePlayer";
 import RetrievePlayers from "../../components/Sandbox/RetrievePlayers";
@@ -11,6 +12,9 @@ export default function Sandbox() {
     return (
     <>
         <Title>API testing sandbox</Title>
+        <br/>
+        <Hello/>
+        <br/>
         <br/>
         <CreateGame/>
         <br/>
