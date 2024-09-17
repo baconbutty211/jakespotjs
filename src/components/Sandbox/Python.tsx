@@ -1,5 +1,5 @@
 import Button from '../Button';
-import { api_uri } from '../../misc';
+import { GetApiUri } from '../../misc';
 export default function Python() {
     return (
         <>
@@ -9,7 +9,8 @@ export default function Python() {
 
     async function handlePython() {
         try{
-            const response = await fetch(api_uri + '/python/test-db.py', {
+            const uri = GetApiUri('test-db');
+            const response = await fetch(uri, {
                 method: "GET"
             }); 
             if (response.ok) {

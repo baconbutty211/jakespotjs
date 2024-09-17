@@ -1,3 +1,4 @@
+export const api_uri : string = IsDevMode() ? import.meta.env.VITE_DEV_API_URI : import.meta.env.VITE_PRODUCTION_API_URI;
 export const redirect_uri : string = IsDevMode() ? import.meta.env.VITE_DEV_REDIRECT_URI : import.meta.env.VITE_PRODUCTION_REDIRECT_URI;
 export const client_id : string = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 export const client_secret : string = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
@@ -13,7 +14,6 @@ export function GetRandomInt(max: number) {
 }
 
 export function GetApiUri(endpoint: string) {
-    const api_uri : string = IsDevMode() ? import.meta.env.VITE_DEV_API_URI : import.meta.env.VITE_PRODUCTION_API_URI;
     const api_runtime : string = import.meta.env.VITE_RUNTIME;
     const api_runtime_file_extention : string = import.meta.env.VITE_RUNTIME_FILE_EXTENSION;
 
