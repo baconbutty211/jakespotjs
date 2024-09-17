@@ -1,15 +1,15 @@
 import Button from '../Button';
 import { api_uri } from '../../misc';
-export default function Hello() {
+export default function Python() {
     return (
         <>
-            <Button onClick={handleHello}>Get Hello</Button>
+            <Button onClick={handlePython}>Do Python</Button>
         </>
     );
 
-    async function handleHello() {
+    async function handlePython() {
         try{
-            const response = await fetch(api_uri + '/python/hello.py', {
+            const response = await fetch(api_uri + '/python/test-db.py', {
                 method: "GET"
             }); 
             if (response.ok) {
