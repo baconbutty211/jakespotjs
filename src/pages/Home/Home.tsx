@@ -9,9 +9,34 @@ export default function Home() {
     <>
         <Title> Home </Title>
         <Button onClick={HandleOnClick}>JakeSpot</Button>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <Button onClick={HandleSandbox} visible={false}> </Button>
     </>);
 
     function HandleOnClick() {
         navigate('/Landing');
+    }
+
+    function HandleSandbox() {
+        navigate('/Sandbox');
     }
 }
