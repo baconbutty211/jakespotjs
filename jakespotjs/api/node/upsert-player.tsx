@@ -1,6 +1,5 @@
 import * as database from './database.js';
 import * as schema from './schema.js';
-import { pusher } from './pusher.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
  
 // Recieves player details (user_id, game_id, spotify_playlist_id). If player exists: current record is updated. if player does not exist: new record is created. Returns new/updated player record.
@@ -24,9 +23,6 @@ export default async function PUT(request: VercelRequest, response: VercelRespon
 
         const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0 } as schema.Player;
         const newPlayer: schema.NewPlayer = await database.upsertPlayer(newPlayerData);
-        console.log("Triggering new player event")
-        pusher.trigger("JakeSpotJS", "new_player", newPlayer);
-        console.log("Triggered new player event")
 
         console.log(newPlayer);
         response.setHeader('Content-Type', 'application/json');

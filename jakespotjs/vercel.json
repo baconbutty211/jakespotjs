@@ -1,9 +1,4 @@
 {
-    "functions": {
-        "api/**/*.tsx": {
-            "runtime": "vercel/node@18.0.0"
-        }
-    },
     "routes": [
         {
             "src": "/[^.]+",

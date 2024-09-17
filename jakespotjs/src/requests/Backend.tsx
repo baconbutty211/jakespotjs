@@ -4,6 +4,7 @@ import * as schema from "../../api/node/schema";
 
 
 export async function CreateGame() {
+    console.log(api_uri)
     const result = await fetch(api_uri + '/create-game.tsx', {
         method: "POST"
     }); 
