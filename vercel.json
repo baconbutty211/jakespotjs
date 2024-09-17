@@ -1,8 +1,12 @@
 {
     "routes": [
         {
-            "src": "/[^.]+",
-            "dest": "/api/node"
+            "src": "/api/node/(.*)",
+            "dest": "/api/node/$1"
+        },
+        {
+            "src": "/api/python/(.*)",
+            "dest": "/api/python/$1"
         }
     ]
 }

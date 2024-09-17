@@ -1,7 +1,5 @@
 import Button from '../Button';
 import { api_uri } from '../../misc';
-import { CreateGame as createGame } from '../../requests/Backend';
-
 export default function Hello() {
     return (
         <>
@@ -11,11 +9,11 @@ export default function Hello() {
 
     async function handleHello() {
         try{
-            const response = await fetch(api_uri + '/hello.py', {
-                method: "POST"
+            const response = await fetch(api_uri + '/python/hello.py', {
+                method: "GET"
             }); 
             if (response.ok) {
-                console.log(response.body);
+                console.log(await response.text());
             }
         }
         catch (error) {
