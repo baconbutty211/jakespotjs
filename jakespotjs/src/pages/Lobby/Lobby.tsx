@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Player } from "../../../api/schema";
+import { Player } from "../../../api/node/schema";
 import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import Pusher from 'pusher-js';
 import { useCookies } from "react-cookie";
 import Button from "../../components/Button";
-import { updateGame } from "../../../api/database";
+import { updateGame } from "../../../api/node/database";
 
 
 export default function Lobby() {

@@ -1,6 +1,6 @@
 import { useCookies } from "react-cookie";
 import { api_uri } from "../misc";
-import * as schema from "../../api/schema";
+import * as schema from "../../api/node/schema";
 
 
 export async function CreateGame() {
