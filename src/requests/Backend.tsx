@@ -70,12 +70,12 @@ export async function UpdateGame(game_id: number, new_state: string) {
     }
 }
 
-export async function UpsertUser(email: string, access_token: string | undefined, refresh_token: string | undefined, spotify_user_id: string) {
+export async function UpsertUser(access_token: string | undefined, refresh_token: string | undefined, spotify_user_id: string) {
     const uri = GetApiUri('upsert-user');
     const result = await fetch(uri, {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id })
+        body: JSON.stringify({ access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id })
     }); 
     if (result.ok) {
         const upsertedUserData: schema.User = await result.json();
@@ -83,7 +83,7 @@ export async function UpsertUser(email: string, access_token: string | undefined
         return upsertedUserData;
     }
     else {
-        throw new Error(`Failed to upsert user. body: {email: ${email}, access_token: ${access_token}, refresh_token: ${refresh_token}, spotify_user_id: ${spotify_user_id}`);
+        throw new Error(`Failed to upsert user. body: {access_token: ${access_token}, refresh_token: ${refresh_token}, spotify_user_id: ${spotify_user_id}`);
     }
 }
 

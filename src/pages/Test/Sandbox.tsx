@@ -7,6 +7,7 @@ import UpsertGuess from "../../components/Sandbox/UpsertGuess";
 import { UpdateState } from "../../components/Sandbox/UpdateGame";
 import LogsContainer from "../../components/LogsContainer";
 import RetrieveUser from "../../components/Sandbox/RetrieveUser";
+import UpsertUser from "../../components/Sandbox/UpsertUser";
 
 export default function Sandbox() {
     return (
@@ -14,6 +15,9 @@ export default function Sandbox() {
         <Title>API testing sandbox</Title>
         <br/>
         <Python/>
+        <br/>
+        <br/>
+        <UpsertUser/>
         <br/>
         <br/>
         <CreateGame/>

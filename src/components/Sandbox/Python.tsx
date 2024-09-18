@@ -3,7 +3,7 @@ import { GetApiUri } from '../../misc';
 export default function Python() {
     return (
         <>
-            <Button onClick={handlePython}>Do Python</Button>
+            <Button onClick={handlePython}>Test db</Button>
         </>
     );
 
