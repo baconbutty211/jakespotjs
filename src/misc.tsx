@@ -14,8 +14,8 @@ export function GetRandomInt(max: number) {
 }
 
 export function GetApiUri(endpoint: string) {
-    const api_runtime : string = import.meta.env.VITE_RUNTIME;
-    const api_runtime_file_extention : string = import.meta.env.VITE_RUNTIME_FILE_EXTENSION;
+    const api_runtime : string = import.meta.env.VITE_VERCEL_RUNTIME;
+    const api_runtime_file_extention : string = import.meta.env.VITE_VERCEL_RUNTIME_FILE_EXTENSION;
 
     return `${api_uri}/${api_runtime}/${endpoint}${api_runtime_file_extention}`; // Example: https://jakespotjs.vercel.app/api/node/create-game.tsx
 }
