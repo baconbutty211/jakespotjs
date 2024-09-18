@@ -31,7 +31,7 @@ class handler(BaseHTTPRequestHandler):
             print(request_data)
 
             # Extract data from request
-            id = request_data.get("id")
+            id = request_data.get("game_id")
             state = request_data.get("state")
             new_song_id = request_data.get("new_song_id")
 

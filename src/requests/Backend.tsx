@@ -22,7 +22,7 @@ export async function RetrievePlayers(game_id: number) {
     const result = await fetch(uri, {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ id: game_id })
+        body: JSON.stringify({ game_id: game_id })
     });
     if (result.ok) {
         const playersData: schema.Player[] = await result.json();
@@ -41,7 +41,7 @@ export async function RetrieveUser(user_id: number) {
     const result = await fetch(uri, {
     method: "POST",
     headers: { 'Content-Type' : 'application/json' },
-    body: JSON.stringify({ id: user_id })
+    body: JSON.stringify({ user_id: user_id })
     });
     if (result.ok) {
         const userData: schema.User = await result.json();
@@ -58,7 +58,7 @@ export async function UpdateGame(game_id: number, new_state: string) {
     const result = await fetch(uri, {
         method: "POST",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ id: game_id, state: new_state })
+        body: JSON.stringify({ game_id: game_id, state: new_state })
     }); 
     if (result.ok) {
         const updatedGameData: schema.Game = await result.json();

@@ -34,7 +34,7 @@ class handler(BaseHTTPRequestHandler):
             print(request_data)
 
             # Extract data from request
-            game_id = request_data.get("id")
+            game_id = request_data.get("game_id")
 
             # Send SQL query to create a new game
             with get_connection() as conn:
