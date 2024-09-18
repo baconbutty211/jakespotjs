@@ -1,36 +1,61 @@
 import { useEffect, useState } from "react";
-import { Player } from "../../../api/node/schema";
+import { Player, Game } from "../../../api/node/schema";
 import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Lobby() {
-    const [cookies, SetCookie] = useCookies(['game_id']);
+    const navigate = useNavigate();
+    const [cookies, SetCookie] = useCookies(['game_id', 'host']);
     const [players, setPlayers] = useState<Player[]>([]);
     const [loading, setLoading] = useState<Boolean>(false);
 
     useEffect(() => {
-        // Fetch initial list of players when the component mounts
-        fetchPlayers();      
+        checkGameStarted();
+        setLoading(true);
+        fetchPlayers(); // Fetch initial list of players
+        setLoading(false);
+        
+        const intervalId = setInterval(hasUpdate, 10000) // Fetch list of players on a set interval
+        
+        return () => clearInterval(intervalId);
     }, []);
 
+
+    async function hasUpdate() {
+        fetchPlayers();
+        checkGameStarted();
+    }
     async function fetchPlayers() {
         try {
-            setLoading(true);
             const data: Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
-
             setPlayers(data); // Update the players state with the fetched data
-            setLoading(false);
         } catch (error: any) {
             console.error('Error fetching players:', error);
-            setLoading(false);
+        }
+    }
+    async function checkGameStarted() {
+        try {
+            const game: Game = await api.RetrieveGame(cookies.game_id); // API endpoint to get the list of players
+            if(game.state === "guessing") {
+                navigate('/Game');
+            }
+        } catch (error: any) {
+            console.error('Error fetching players:', error);
         }
     }
 
-    async function startGame() {
-        throw new Error('Not implemented');
+    async function handleStartGame() {
+        const newGame = await api.UpdateGame(cookies.game_id, "guessing");
+        if(newGame.state === "guessing") {
+            navigate('/Game');
+        }
+        else {
+            throw new Error(`Game state NOT updated to guessing. ${newGame}`);
+        }
         //updateGame({ id: cookies.game_id, state: "guessing" });
     }
 
@@ -60,8 +85,7 @@ export default function Lobby() {
             </tbody>
         </table>
         <br/>
-        <Button onClick={startGame}>Start Game</Button>
+        { cookies.host ? <Button onClick={handleStartGame}>Start Game</Button> : <></> }
     </>);
 
 };
-

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['game_id']);
+    const [cookies, setCookie] = useCookies(['game_id', 'host']);
     const [inputValue, setInputValue] = useState('game_id');
     
     return (
@@ -37,6 +37,7 @@ export default function Landing() {
             console.log(newGameData);
             // Set game_id cookie
             setCookie("game_id", newGameData.id);
+            setCookie("host", true);
             console.log(cookies.game_id);
             // Send user to Buffet
             navigate("/Buffet");
@@ -51,6 +52,7 @@ export default function Landing() {
 
             // Set game_id cookie
             setCookie("game_id", inputValue);
+            setCookie("host", false);
             // Send user to Buffet
             navigate("/Buffet");
         }

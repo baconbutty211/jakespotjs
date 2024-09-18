@@ -1,6 +1,7 @@
 import { useCookies } from "react-cookie";
 import { GetApiUri } from "../misc";
 import * as schema from "../../api/node/schema";
+import { Schema } from "zod";
 
 
 export async function CreateGame() {
@@ -14,6 +15,22 @@ export async function CreateGame() {
     }
     else {
         throw new Error("Failed to create new game.");
+    }
+}
+
+export async function RetrieveGame(game_id: number) {
+    const uri = GetApiUri('retrieve-game');
+    const result = await fetch(uri, {
+        method: "POST",
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ game_id: game_id })
+    });
+    if (result.ok) {
+        const gameData: schema.Game = await result.json();
+        return gameData;
+    }
+    else {
+        throw new Error(`Failed to retrieve game. body: {id: ${game_id}}`);
     }
 }
 
@@ -53,7 +70,7 @@ export async function RetrieveUser(user_id: number) {
     }
 }
 
-export async function UpdateGame(game_id: number, new_state: string) {
+export async function UpdateGame(game_id: number, new_state: "guessing" | "scoring" | "finished") {
     const uri = GetApiUri('update-game');
     const result = await fetch(uri, {
         method: "POST",
