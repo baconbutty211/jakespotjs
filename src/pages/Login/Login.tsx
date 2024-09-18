@@ -32,7 +32,7 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
             setProfile(() => results);   
             // Upsert user
             console.log(results);
-            const userData = await UpsertUser(results.email, token?.access_token, token?.refresh_token, results.id);
+            const userData = await UpsertUser(token?.access_token, token?.refresh_token, results.id);
             setCookie("user_id", userData.id);
         })();
     }, [sdk]);
