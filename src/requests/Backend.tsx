@@ -70,7 +70,7 @@ export async function RetrieveUser(user_id: number) {
     }
 }
 
-export async function UpdateGame(game_id: number, new_state: "guessing" | "scoring" | "finished") {
+export async function UpdateGame(game_id: number, new_state: "lobby" | "guessing" | "scoring" | "finished") {
     const uri = GetApiUri('update-game');
     const result = await fetch(uri, {
         method: "POST",

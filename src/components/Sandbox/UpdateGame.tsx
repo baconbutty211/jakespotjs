@@ -9,6 +9,9 @@ export function UpdateState() {
     async function handleUpdateGame(selectedItem: string | null) {
         if(selectedItem === null)
             return;
+        else if (selectedItem !== "lobby" && selectedItem !== "guessing" && selectedItem !== "scoring" && selectedItem !== "finished") {
+            return;
+        }
         else {
             const updatedGame = await api.UpdateGame(cookies.game_id, selectedItem);
             console.log(updatedGame);
