@@ -1,6 +1,6 @@
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import { CreateGame } from "../../requests/Backend";
+import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
 import Input from "../../components/Input";
 import { SetStateAction, useState } from "react";
@@ -33,7 +33,7 @@ export default function Landing() {
     async function handleCreateGame() {
         try{
             // Insert row into Game table
-            const newGameData = await CreateGame();
+            const newGameData = await api.CreateGame();
             console.log(newGameData);
             // Set game_id cookie
             setCookie("game_id", newGameData.id);

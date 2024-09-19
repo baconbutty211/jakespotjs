@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MaxInt, Playlist, SpotifyApi, User } from "@spotify/web-api-ts-sdk";
 import { useAuth } from "../../contexts/AuthContext";
 
-import * as backend from "../../requests/Backend";
+import * as api from "../../requests/Backend";
 
 import Title from "../../components/Title";
 import PlaylistCard from "../../components/PlaylistCard";
@@ -37,10 +37,10 @@ export default function Buffet() {
     const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'player_id']);
     
     const [playlists, setPlaylists] = useState<Playlist[]>([] as Playlist[]);
-    const { sdk: api } = useAuth();
+    const { sdk: spotify_api } = useAuth();
     
     useEffect(() => {
-        GetUserPlaylists(api)
+        GetUserPlaylists(spotify_api)
         .then((playlists) => setPlaylists(playlists as Playlist[]))
         .catch((error: Error) => console.error(error));
     }, []);
@@ -74,7 +74,7 @@ export default function Buffet() {
     async function handleSelectPlaylist(playlist_uri: string) {
         // Upsert player
         const playlist_id = playlist_uri.split(':')[2];
-        const playerData = await backend.UpsertPlayer(cookies.user_id, cookies.game_id, playlist_id);
+        const playerData = await api.UpsertPlayer(cookies.user_id, cookies.game_id, playlist_id);
         //console.log(playerData);
         
         // Set player_id cookie

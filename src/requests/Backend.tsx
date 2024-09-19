@@ -1,7 +1,5 @@
-import { useCookies } from "react-cookie";
 import { GetApiUri } from "../misc";
 import * as schema from "../../api/node/schema";
-import { Schema } from "zod";
 
 
 export async function CreateGame() {

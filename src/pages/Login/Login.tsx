@@ -5,7 +5,7 @@ import { useSpotify } from "../../hooks/UseSpotify";
 import { AccessToken, Artist, Artists, ItemTypes, Scopes, SearchResults, SpotifyApi, UserProfile } from "@spotify/web-api-ts-sdk";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { UpsertUser } from "../../requests/Backend";
+import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +32,7 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
             setProfile(() => results);   
             // Upsert user
             console.log(results);
-            const userData = await UpsertUser(token?.access_token, token?.refresh_token, results.id);
+            const userData = await api.UpsertUser(token?.access_token, token?.refresh_token, results.id);
             setCookie("user_id", userData.id);
         })();
     }, [sdk]);
