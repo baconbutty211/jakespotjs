@@ -1,5 +1,71 @@
+import { useEffect, useState } from "react";
+import * as schema from "../../../api/node/schema";
 import Title from "../../components/Title";
+import * as api from "../../requests/Backend";
+import { useCookies } from "react-cookie";
+import Button from "../../components/Button";
+import Guessing from "./Guessing";
+import Scoring from "./Scoring";
+import Finished from "./Finished";
 
 export default function Game() {
-  return <Title>Game</Title>;
-}
+    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'host']);
+    const [players, setPlayers] = useState<schema.Player[]>([]);
+    const [loading, setLoading] = useState<Boolean>(false);
+    const [gameState, setGameState] = useState<'guessing' | 'scoring' | 'finished'>('guessing')
+
+
+    useEffect(() => {
+        checkGameState();
+        setLoading(true);
+        fetchPlayers(); // Fetch initial list of players
+        setLoading(false);
+        
+        const intervalId = setInterval(hasUpdate, 10000) // Fetch list of players on a set interval
+        
+        return () => clearInterval(intervalId);
+    }, []);
+
+    async function hasUpdate() {
+        fetchPlayers();
+        checkGameState();
+    }
+    async function fetchPlayers() {
+        try {
+            const data: schema.Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
+            setPlayers(data); // Update the players state with the fetched data
+        } catch (error: any) {
+            console.error('Error fetching players:', error);
+        }
+    }
+    async function checkGameState() {
+        try {
+            const game: schema.Game = await api.RetrieveGame(cookies.game_id); // API endpoint to get the list of players
+            if(game.state === "lobby")
+                throw new Error(`Should NOT be on this page when game state is ${game.state}`)
+            else
+                setGameState(game.state);
+        } catch (error: any) {
+            console.error('Error:', error);
+        }
+    }
+
+    return (<>
+            <Title>Game</Title>
+            {
+                // BIG if else ternary operators (if/else doesn't compile/throws errors?)
+                loading ? 
+                    "Loading players..." :
+                (gameState === "guessing") ?
+                    <Guessing players={players} cookies={cookies}/> :
+                (gameState === "scoring") ?
+                    <Scoring players={players}  cookies={cookies}/> :
+                (gameState === "finished") ?
+                    <Finished players={players} cookies={cookies}/> :
+                new Error(`gameState should NOT be ${gameState}`)
+            }
+        </>)
+
+    
+
+};
