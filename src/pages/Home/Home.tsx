@@ -8,7 +8,7 @@ export default function Home() {
     return (
     <>
         <Title> Home </Title>
-        <Button onClick={HandleOnClick}>JakeSpot</Button>
+        <Button onClick={HandleJakeSpot}>JakeSpot</Button>
         <br/>
         <br/>
         <br/>
@@ -32,7 +32,7 @@ export default function Home() {
         <Button onClick={HandleSandbox} visible={false}> </Button>
     </>);
 
-    function HandleOnClick() {
+    function HandleJakeSpot() {
         navigate('/Landing');
     }
 
