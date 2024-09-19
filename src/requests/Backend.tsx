@@ -127,9 +127,9 @@ export async function UpsertGuess(user_id: number, game_id: number, guessed_play
         body: JSON.stringify({ game_id: game_id, user_id: user_id, guessed_player_id: guessed_player_id })
     }); 
     if (result.ok) {
-        const updatedGameData: schema.Guess = await result.json();
-        console.log(updatedGameData);
-        return updatedGameData;
+        const updatedGuessData: schema.Guess = await result.json();
+        console.log(updatedGuessData);
+        return updatedGuessData;
     }
     else {
         throw new Error(`Failed to upsert guess. body: {game_id: ${game_id}, user_id: ${user_id}, guessed_player_id: ${guessed_player_id}`);
