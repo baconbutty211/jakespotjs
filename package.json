@@ -28,6 +28,7 @@
         "react-cookie": "^6.1.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.11.2",
+        "react-spotify-web-playback": "^0.14.4",
         "styled-components": "^6.0.7",
         "vercel": "^32.3.0",
         "zod": "^3.22.2"
