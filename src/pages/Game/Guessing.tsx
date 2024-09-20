@@ -16,17 +16,27 @@ interface Props {
   
 
 export default function Guessing({ players, cookies }: Props) {
-    const [selectedPlayerId, setSelectedPlayerId] = useState<number>();
+    const [spotifyAccessToken, setSpotifyAccessToken] = useState<string>('Initial access token');
     const [currentTrackId, setCurrentTrackId] = useState<string>();
+    const [selectedPlayerId, setSelectedPlayerId] = useState<number>();
 
     useEffect(() => {
-        fetchCurrentTrackId();
+        fetchUser();
+        fetchCurrentTrack();
     }, []);
 
-    async function fetchCurrentTrackId() {
+    async function fetchUser() {
+        try {
+            const user = await api.RetrieveUser(parseInt(cookies.user_id ? cookies.user_id : "No user id cookie"));
+            setSpotifyAccessToken(user.spotify_access_token);
+        } catch (error: any) {
+            console.error('Error fetching current track:', error);
+        }
+    }
+    async function fetchCurrentTrack() {
         try {
             const currentSong = await api.RetrieveCurrentSong(parseInt(cookies.game_id ? cookies.game_id : "No game id cookie"));
-            setCurrentTrackId(currentSong['spotify_track_id']);
+            setCurrentTrackId(currentSong.spotify_track_id);
         } catch (error: any) {
             console.error('Error fetching current track:', error);
         }
@@ -59,7 +69,7 @@ export default function Guessing({ players, cookies }: Props) {
                 ))}
             </tbody>
         </table>
-        <SpotifyPlayer token={cookies.access_token ? cookies.access_token : "No access token cookie"} uris={[`spotify:track:${currentTrackId}`]} 
+        <SpotifyPlayer token={spotifyAccessToken} uris={[`spotify:track:${currentTrackId}`]} 
         styles={{
             activeColor: '#fff',
             bgColor: '#333',
