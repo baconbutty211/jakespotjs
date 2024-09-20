@@ -8,13 +8,29 @@ import { UpdateState } from "../../components/Sandbox/UpdateGame";
 import LogsContainer from "../../components/LogsContainer";
 import RetrieveUser from "../../components/Sandbox/RetrieveUser";
 import UpsertUser from "../../components/Sandbox/UpsertUser";
+import { useCookies } from "react-cookie";
+import SpotifyPlayer from 'react-spotify-web-playback';
+
 
 export default function Sandbox() {
+    const [cookies, setCookies] = useCookies(["access_token"])
     return (
     <>
         <Title>API testing sandbox</Title>
         <br/>
         <Python/>
+        <br/>
+        <br/>
+        <SpotifyPlayer token={cookies.access_token} uris={['spotify:track:3aeWRywNZ1PkEFqBG5wwkH']} 
+        styles={{
+            activeColor: '#fff',
+            bgColor: '#333',
+            color: '#fff',
+            loaderColor: '#fff',
+            sliderColor: '#1cb954',
+            trackArtistColor: '#ccc',
+            trackNameColor: '#fff',
+        }}/>;
         <br/>
         <br/>
         <UpsertUser/>
