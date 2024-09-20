@@ -70,6 +70,7 @@ export default function Guessing({ players, cookies }: Props) {
             </tbody>
         </table>
         <SpotifyPlayer token={spotifyAccessToken} uris={[`spotify:track:${currentTrackId}`]} 
+        initialVolume={0.05}
         styles={{
             activeColor: '#fff',
             bgColor: '#333',
@@ -83,7 +84,7 @@ export default function Guessing({ players, cookies }: Props) {
     </>);
 
     async function handleGuess(user_id: number, game_id: number, guessed_player_id: number) {
-        const guess = await api.UpsertGuess(user_id, game_id, guessed_player_id);
+        await api.UpsertGuess(user_id, game_id, guessed_player_id);
         setSelectedPlayerId(guessed_player_id);
     }
 }
