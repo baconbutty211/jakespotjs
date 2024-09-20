@@ -68,6 +68,23 @@ export async function RetrieveUser(user_id: number) {
     }
 }
 
+export async function RetrieveCurrentSong(game_id: number) {
+    const uri = GetApiUri('retrieve-current-song');
+    const result = await fetch(uri, {
+    method: "POST",
+    headers: { 'Content-Type' : 'application/json' },
+    body: JSON.stringify({ game_id: game_id })
+    });
+    if (result.ok) {
+        const songData: schema.Song = await result.json();
+        console.log(songData);
+        return songData;
+    }
+    else {
+        throw new Error(`Failed to retrieve user data. body: {id: ${game_id}}`);
+    }
+}
+
 export async function UpdateGame(game_id: number, new_state: "lobby" | "guessing" | "scoring" | "finished") {
     const uri = GetApiUri('update-game');
     const result = await fetch(uri, {
