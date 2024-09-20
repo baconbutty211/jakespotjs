@@ -3,13 +3,12 @@ import * as schema from "../../../api/node/schema";
 import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
-import Button from "../../components/Button";
 import Guessing from "./Guessing";
 import Scoring from "./Scoring";
 import Finished from "./Finished";
 
 export default function Game() {
-    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'host']);
+    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'host', 'access_token']);
     const [players, setPlayers] = useState<schema.Player[]>([]);
     const [loading, setLoading] = useState<Boolean>(false);
     const [gameState, setGameState] = useState<'guessing' | 'scoring' | 'finished'>('guessing')

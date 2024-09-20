@@ -1,7 +1,8 @@
 import * as schema from "../../../api/node/schema";
 import * as api from "../../requests/Backend";
 import Button from "../../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SpotifyPlayer from 'react-spotify-web-playback';
 
 interface Props {
     players: schema.Player[],
@@ -9,12 +10,28 @@ interface Props {
         user_id?: string,
         game_id?: string,
         host?: boolean,
+        access_token?: string,
     }
   }
   
 
 export default function Guessing({ players, cookies }: Props) {
     const [selectedPlayerId, setSelectedPlayerId] = useState<number>();
+    const [currentTrackId, setCurrentTrackId] = useState<string>();
+
+    useEffect(() => {
+        fetchCurrentTrackId();
+    }, []);
+
+    async function fetchCurrentTrackId() {
+        try {
+            const currentSong = await api.RetrieveCurrentSong(parseInt(cookies.game_id ? cookies.game_id : "No game id cookie"));
+            setCurrentTrackId(currentSong['spotify_track_id']);
+        } catch (error: any) {
+            console.error('Error fetching current track:', error);
+        }
+    }
+
     return (<>
         <h2>Guessing</h2>
         <table>
@@ -42,6 +59,16 @@ export default function Guessing({ players, cookies }: Props) {
                 ))}
             </tbody>
         </table>
+        <SpotifyPlayer token={cookies.access_token ? cookies.access_token : "No access token cookie"} uris={[`spotify:track:${currentTrackId}`]} 
+        styles={{
+            activeColor: '#fff',
+            bgColor: '#333',
+            color: '#fff',
+            loaderColor: '#fff',
+            sliderColor: '#1cb954',
+            trackArtistColor: '#ccc',
+            trackNameColor: '#fff',
+        }}/>;
         <br/>
     </>);
 
