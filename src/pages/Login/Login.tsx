@@ -21,7 +21,7 @@ export default function Login() {
 
 function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['user_id']);
+    const [cookies, setCookie] = useCookies(['user_id', 'access_token', 'refresh_token']);
     const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
     //const [token, setToken] = useState<AccessToken | null>(null);
 
@@ -32,6 +32,8 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
             setProfile(() => results);   
             // Upsert user
             console.log(results);
+            setCookie("access_token", token?.access_token);
+            setCookie("refresh_token", token?.refresh_token);
             const userData = await api.UpsertUser(token?.access_token, token?.refresh_token, results.id);
             setCookie("user_id", userData.id);
         })();
