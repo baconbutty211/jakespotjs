@@ -56,6 +56,8 @@ class handler(BaseHTTPRequestHandler):
                         "game_id": result[2],
                         "spotify_playlist_id": result[3],
                         "score": result[4],
+                        "username": result[5],
+                        "image": result[6],
                     }
                 )
 

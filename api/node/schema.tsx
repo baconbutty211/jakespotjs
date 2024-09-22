@@ -15,6 +15,8 @@ export interface UserTable {
     spotify_access_token: string,
     spotify_refresh_token: string,
     spotify_user_id: string,
+    username: string,
+    image: string,
 }
 export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;
