@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as schema from "../../../api/node/schema";
+import * as schema from "../../requests/Schema";
 import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";

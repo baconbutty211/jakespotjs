@@ -1,4 +1,4 @@
-import * as schema from "../../../api/node/schema";
+import * as schema from "../../requests/Schema";
 import * as api from "../../requests/Backend";
 import Button from "../../components/Button";
 import { useEffect, useState } from "react";

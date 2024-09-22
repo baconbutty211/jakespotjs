@@ -1,6 +1,5 @@
 import { GetApiUri } from "../misc";
-import * as schema from "../../api/node/schema";
-
+import * as schema from "./Schema";
 
 export async function CreateGame() {
     const uri = GetApiUri('create-game');

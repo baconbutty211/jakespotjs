@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Player, Game } from "../../../api/node/schema";
+import * as schema from "../../requests/Schema";
 import Title from "../../components/Title";
 import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function Lobby() {
     const navigate = useNavigate();
     const [cookies, SetCookie] = useCookies(['game_id', 'host']);
-    const [players, setPlayers] = useState<Player[]>([]);
+    const [players, setPlayers] = useState<schema.Player[]>([]);
     const [loading, setLoading] = useState<Boolean>(false);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function Lobby() {
     }
     async function fetchPlayers() {
         try {
-            const data: Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
+            const data: schema.Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
             setPlayers(data); // Update the players state with the fetched data
         } catch (error: any) {
             console.error('Error fetching players:', error);
@@ -39,7 +39,7 @@ export default function Lobby() {
     }
     async function checkGameStarted() {
         try {
-            const game: Game = await api.RetrieveGame(cookies.game_id); // API endpoint to get the list of players
+            const game: schema.Game = await api.RetrieveGame(cookies.game_id); // API endpoint to get the list of players
             if(game.state === "guessing") {
                 navigate('/Game');
             }

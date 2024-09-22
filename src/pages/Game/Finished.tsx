@@ -1,5 +1,5 @@
 import Scoring from "./Scoring";
-import * as schema from "../../../api/node/schema";
+import * as schema from "../../requests/Schema";
 
 
 interface Props {
