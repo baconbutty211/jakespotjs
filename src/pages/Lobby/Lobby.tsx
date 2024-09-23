@@ -5,6 +5,7 @@ import * as api from "../../requests/Backend";
 import { useCookies } from "react-cookie";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { LobbyPlayerTable } from "../../components/PlayerTable";
 
 
 export default function Lobby() {
@@ -68,22 +69,7 @@ export default function Lobby() {
 
     return (<>
         <Title>Lobby</Title>
-        <table>
-            <thead> 
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {players.map((player) => (
-                    <tr key={player.id}>
-                        <td>{player.id}</td>
-                        <td>{player.score}</td>
-                    </tr> 
-                ))}
-            </tbody>
-        </table>
+        <LobbyPlayerTable players={players}/>
         <br/>
         { cookies.host ? <Button onClick={handleStartGame}>Start Game</Button> : <></> }
     </>);

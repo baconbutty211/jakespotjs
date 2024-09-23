@@ -3,6 +3,7 @@ import * as api from "../../requests/Backend";
 import Button from "../../components/Button";
 import { useEffect, useState } from "react";
 import SpotifyPlayer from 'react-spotify-web-playback';
+import { GameGuessingPlayerTable } from "../../components/PlayerTable";
 
 interface Props {
     players: schema.Player[],
@@ -44,31 +45,10 @@ export default function Guessing({ players, cookies }: Props) {
 
     return (<>
         <h2>Guessing</h2>
-        <table>
-            <thead> 
-                <tr>
-                    <th> Player </th>
-                    <th> Guess </th>
-                </tr>
-            </thead>
-            <tbody>
-                {players.map((player) => (
-                    <tr key={player.id}>
-                        <td>{player.id}</td>
-                        <Button 
-                            disabled={player.id == selectedPlayerId} 
-                            color={player.id == selectedPlayerId ? "secondary" : "success"}
-                            onClick={() => handleGuess(
-                                parseInt(cookies.user_id ? cookies.user_id : "No user_id cookie"),
-                                parseInt(cookies.game_id ? cookies.game_id : "No game_id cookie"), 
-                                player.id
-                            )}> 
-                            Guess
-                        </Button>
-                    </tr> 
-                ))}
-            </tbody>
-        </table>
+        <GameGuessingPlayerTable players={players} 
+            selectedPlayerId={selectedPlayerId ? selectedPlayerId : -1} 
+            onGuessCallback={handleGuess}
+        />
         <SpotifyPlayer token={spotifyAccessToken} uris={[`spotify:track:${currentTrackId}`]} 
         initialVolume={0.05}
         styles={{
@@ -83,8 +63,12 @@ export default function Guessing({ players, cookies }: Props) {
         <br/>
     </>);
 
-    async function handleGuess(user_id: number, game_id: number, guessed_player_id: number) {
-        await api.UpsertGuess(user_id, game_id, guessed_player_id);
+    async function handleGuess(guessed_player_id: number) {
+        await api.UpsertGuess(
+            parseInt(cookies.user_id ? cookies.user_id : "No user_id cookie"),
+            parseInt(cookies.game_id ? cookies.game_id : "No game_id cookie"),
+            guessed_player_id
+        );
         setSelectedPlayerId(guessed_player_id);
     }
 }

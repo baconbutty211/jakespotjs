@@ -1,6 +1,7 @@
 import * as schema from "../../requests/Schema";
 import * as api from "../../requests/Backend";
 import Button from "../../components/Button";
+import { GameScoringPlayerTable } from "../../components/PlayerTable";
 
 interface Props {
     players: schema.Player[],
@@ -16,22 +17,7 @@ interface Props {
 export default function Scoring({ players, cookies, final=false }: Props) {
     return (<>
         <h2>Scores</h2>
-        <table>
-            <thead> 
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {players.map((player) => (
-                    <tr key={player.id}>
-                        <td>{player.id}</td>
-                        <td>{player.score}</td>
-                    </tr> 
-                ))}
-            </tbody>
-        </table>
+        <GameScoringPlayerTable players={players}/>
         <br/>
         
         { cookies.host && !final ? <Button onClick={handleContinue}>Continue playing</Button> : <></> }
