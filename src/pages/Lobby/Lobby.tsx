@@ -68,7 +68,7 @@ export default function Lobby() {
     }
 
     return (<>
-        <Title>Lobby</Title>
+        <h1>Lobby - Game id: {cookies.game_id} </h1>
         <LobbyPlayerTable players={players}/>
         <br/>
         { cookies.host ? <Button onClick={handleStartGame}>Start Game</Button> : <></> }
