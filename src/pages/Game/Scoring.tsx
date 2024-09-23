@@ -16,7 +16,7 @@ interface Props {
 
 export default function Scoring({ players, cookies, final=false }: Props) {
     return (<>
-        <h2>Scores</h2>
+        <h3> Scoreboard </h3>
         <GameScoringPlayerTable players={players}/>
         <br/>
         

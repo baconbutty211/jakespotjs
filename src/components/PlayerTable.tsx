@@ -31,7 +31,6 @@ export function LobbyPlayerTable({ players }: Props) {
 
 export function GameGuessingPlayerTable({ players, selectedPlayerId, onGuessCallback }: GameGuessingProps) {
     return (<>
-        <h3> Players: </h3>
         <table>
             <thead> 
                 <tr>
@@ -49,7 +48,6 @@ export function GameGuessingPlayerTable({ players, selectedPlayerId, onGuessCall
 
 export function GameScoringPlayerTable({ players }: Props) {
     return (<>
-        <h3> Players: </h3>
         <table>
             <thead> 
                 <tr>
