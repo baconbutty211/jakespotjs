@@ -10,9 +10,12 @@ import RetrieveUser from "../../components/Sandbox/RetrieveUser";
 import UpsertUser from "../../components/Sandbox/UpsertUser";
 import { useCookies } from "react-cookie";
 import SpotifyPlayer from 'react-spotify-web-playback';
+import Button from "../../components/Button";   
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Sandbox() {
+    const navigate = useNavigate();
     const [cookies, setCookies] = useCookies(["access_token"])
     return (
     <>
@@ -31,6 +34,9 @@ export default function Sandbox() {
             trackArtistColor: '#ccc',
             trackNameColor: '#fff',
         }}/>;
+        <br/>
+        <br/>
+        <Button onClick={() => navigate('/Login')}> Login </Button>
         <br/>
         <br/>
         <UpsertUser/>
