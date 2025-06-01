@@ -59,7 +59,7 @@ export async function RetrieveUser(user_id: number) {
     });
     if (result.ok) {
         const userData: schema.User = await result.json();
-        console.log(userData);
+        //console.log(userData);
         return userData;
     }
     else {
@@ -67,12 +67,12 @@ export async function RetrieveUser(user_id: number) {
     }
 }
 
-export async function RetrieveCurrentSong(game_id: number) {
-    const uri = GetApiUri('retrieve-current-song');
+export async function RetrieveSong(song_id: number) {
+    const uri = GetApiUri('retrieve-song');
     const result = await fetch(uri, {
     method: "POST",
     headers: { 'Content-Type' : 'application/json' },
-    body: JSON.stringify({ game_id: game_id })
+    body: JSON.stringify({ song_id: song_id })
     });
     if (result.ok) {
         const songData: schema.Song = await result.json();
@@ -80,7 +80,7 @@ export async function RetrieveCurrentSong(game_id: number) {
         return songData;
     }
     else {
-        throw new Error(`Failed to retrieve user data. body: {id: ${game_id}}`);
+        throw new Error(`Failed to retrieve song data. body: {song_id: ${song_id}}`);
     }
 }
 
@@ -93,7 +93,7 @@ export async function UpdateGame(game_id: number, new_state: "lobby" | "guessing
     }); 
     if (result.ok) {
         const updatedGameData: schema.Game = await result.json();
-        console.log(updatedGameData);
+        //console.log(updatedGameData);
         return updatedGameData;
     }
     else {
@@ -101,20 +101,20 @@ export async function UpdateGame(game_id: number, new_state: "lobby" | "guessing
     }
 }
 
-export async function UpsertUser(access_token: string | undefined, refresh_token: string | undefined, spotify_user_id: string) {
+export async function UpsertUser(email: string, access_token: string | undefined, refresh_token: string | undefined, spotify_user_id: string) {
     const uri = GetApiUri('upsert-user');
     const result = await fetch(uri, {
         method: "PUT",
         headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({ access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id })
+        body: JSON.stringify({ email: email, access_token: access_token, refresh_token: refresh_token, spotify_user_id: spotify_user_id })
     }); 
     if (result.ok) {
         const upsertedUserData: schema.User = await result.json();
-        console.log(upsertedUserData);
+        //console.log(upsertedUserData);
         return upsertedUserData;
     }
     else {
-        throw new Error(`Failed to upsert user. body: {access_token: ${access_token}, refresh_token: ${refresh_token}, spotify_user_id: ${spotify_user_id}`);
+        throw new Error(`Failed to upsert user. body: {email: ${email}, access_token: ${access_token}, refresh_token: ${refresh_token}, spotify_user_id: ${spotify_user_id}`);
     }
 }
 
@@ -144,10 +144,26 @@ export async function UpsertGuess(user_id: number, game_id: number, guessed_play
     }); 
     if (result.ok) {
         const updatedGuessData: schema.Guess = await result.json();
-        console.log(updatedGuessData);
+        //console.log(updatedGuessData);
         return updatedGuessData;
     }
     else {
         throw new Error(`Failed to upsert guess. body: {game_id: ${game_id}, user_id: ${user_id}, guessed_player_id: ${guessed_player_id}`);
+    }
+}
+
+export async function UpsertSong(player_id: number, spotify_track_id: string) {
+    const uri = GetApiUri('upsert-song');
+    const result = await fetch(uri, {
+        method: "PUT",
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ player_id: player_id, spotify_track_id: spotify_track_id })
+    }); 
+    if (result.ok) {
+        const newSongData: schema.Song = await result.json();
+        return newSongData;
+    }
+    else {
+        throw new Error(`Failed to upsert song. body: {player_id: ${player_id}, spotify_track_id: ${spotify_track_id}`);
     }
 }

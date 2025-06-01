@@ -53,7 +53,7 @@ export default function Buffet() {
             playlists.map((playlist: Playlist, index: number) => (
                 <PlaylistCard 
                     key={index}
-                    onClick={() => handleSelectPlaylist(playlist.uri)}
+                    onClick={() => handleSelectPlaylist(playlist)}
                     img={{
                         src: playlist.images[playlist.images.length > 1 ? image_size : 0].url,
                         alt: "playlist image", 
@@ -71,11 +71,19 @@ export default function Buffet() {
     );
 
 
-    async function handleSelectPlaylist(playlist_uri: string) {
+    async function handleSelectPlaylist(playlist: Playlist) {
+
         // Upsert player
-        const playlist_id = playlist_uri.split(':')[2];
+        const playlist_id = playlist.uri.split(':')[2]; // Extract the playlist ID from the URI
         const playerData = await api.UpsertPlayer(cookies.user_id, cookies.game_id, playlist_id);
-        //console.log(playerData);
+        
+        // Set random song for player
+        try {
+            const random_track = playlist.tracks.items[Math.floor(Math.random() * playlist.tracks.items.length)];
+            await api.UpsertSong(playerData.id, random_track.track.id);
+        } catch (error: any) {
+            console.error('Error setting player random song:', error);
+        }
         
         // Set player_id cookie
         SetCookie("player_id", playerData.id); 
