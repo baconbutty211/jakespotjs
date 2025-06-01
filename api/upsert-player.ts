@@ -1,7 +1,7 @@
 import * as database from './database.js';
 import * as schema from './schema.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
- 
+
 // Recieves player details (user_id, game_id, spotify_playlist_id). If player exists: current record is updated. if player does not exist: new record is created. Returns new/updated player record.
 // Body : { user_id, game_id, spotify_playlist_id }
 // Returns new/updated player record
@@ -21,12 +21,12 @@ export default async function PUT(request: VercelRequest, response: VercelRespon
             throw new Error("spotify playlist id required.");
         }
 
-        const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0 } as schema.Player;
+        const newPlayerData = { user_id: user_id, game_id: game_id, spotify_playlist_id: spotify_playlist_id, score: 0, username: "Fix Later", image: "Fix Later" } as schema.Player;
         const newPlayer: schema.NewPlayer = await database.upsertPlayer(newPlayerData);
 
         console.log(newPlayer);
         response.setHeader('Content-Type', 'application/json');
-        response.status(200).json( newPlayer );
+        response.status(200).json(newPlayer);
     }
     catch (error) {
         console.error(error);

@@ -20,7 +20,7 @@ export default function Game() {
         fetchPlayers(); // Fetch initial list of players
         setLoading(false);
         
-        const intervalId = setInterval(hasUpdate, 10000) // Fetch list of players on a set interval
+        const intervalId = setInterval(hasUpdate, 100000) // Fetch list of players on a set interval
         
         return () => clearInterval(intervalId);
     }, []);
@@ -56,7 +56,7 @@ export default function Game() {
                 loading ? 
                     "Loading players..." :
                 (gameState === "guessing") ?
-                    <Guessing players={players} cookies={cookies}/> :
+                    <Guessing players={players} game_id={cookies.game_id} user_id={cookies.user_id} host={cookies.host} access_token={cookies.access_token}  /> :
                 (gameState === "scoring") ?
                     <Scoring players={players}  cookies={cookies}/> :
                 (gameState === "finished") ?

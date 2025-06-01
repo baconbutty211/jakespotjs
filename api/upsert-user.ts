@@ -29,7 +29,7 @@ export default async function PUT(request: VercelRequest, response: VercelRespon
             throw new Error(errmsg);
         }
 
-        const newUserData: schema.NewUser = { email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token, spotify_user_id: spotify_user_id, username: "Fix Later", image: "Fix Later" } as schema.NewUser;
+        const newUserData: schema.NewUser = { email: email, spotify_access_token: access_token, spotify_refresh_token: refresh_token, spotify_user_id: spotify_user_id } as schema.NewUser;
         const newUser = await database.upsertUser(newUserData);
         return response.status(200).json(newUser);
     }

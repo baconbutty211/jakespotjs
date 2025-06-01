@@ -11,7 +11,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
         const id = request.body.game_id as schema.Game["id"];
 
         if (!id) {
-            throw new Error("user id required.");
+            throw new Error("game id required.");
         }
 
         const game: schema.Game = await database.findGameById(id);

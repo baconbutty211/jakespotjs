@@ -23,18 +23,18 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['user_id', 'access_token', 'refresh_token']);
     const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
-    //const [token, setToken] = useState<AccessToken | null>(null);
 
     useEffect(() =>{
         (async () => {
-            const results = await sdk.currentUser.profile();
-            const token: AccessToken | null = await sdk.getAccessToken(); 
-            setProfile(() => results);   
-            // Upsert user
-            console.log(results);
+            const profile = await sdk.currentUser.profile();
+            setProfile(() => profile);   
+            console.log(profile);
+            const token: AccessToken | null = await sdk.getAccessToken();
             setCookie("access_token", token?.access_token);
             setCookie("refresh_token", token?.refresh_token);
-            const userData = await api.UpsertUser(token?.access_token, token?.refresh_token, results.id);
+            // Upsert user
+            const userData = await api.UpsertUser(profile.email, token?.access_token, token?.refresh_token, profile.id);
+            console.log(`Access token cookie:${cookies.access_token}. Database access token: ${userData.spotify_access_token}`);
             setCookie("user_id", userData.id);
         })();
     }, [sdk]);
