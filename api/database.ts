@@ -183,6 +183,36 @@ export async function createSong(song: schema.NewSong) {
         .returningAll()
         .executeTakeFirstOrThrow();
 }
+export async function upsertSong(song: schema.NewSong) {
+    const db = getDatabase();
+    const result = await db.insertInto('songs')
+        .values(song)
+        .onConflict((oc) =>
+            oc.columns(['player_id'])
+                .doUpdateSet(song)
+        )
+        .returningAll()
+        .execute();
+
+    if (result.length > 1) {
+        console.error(`Too many songs returned. ${result}`);
+        throw new Error(`Too many songs returned. ${result}`);
+    }
+    else if (result.length == 0) {
+        console.error(`No songs returned. ${result}`);
+        throw new Error(`No song with player_id=${song.player_id} exists.`);
+    }
+    else {
+        return result[0];
+    }
+}
+export async function findSongsByPlayerId(player_id: number) {
+    const db = getDatabase();
+    return await db.selectFrom('songs')
+        .selectAll()
+        .where('player_id', "=", player_id)
+        .execute();
+}
 export async function findSongById(id: number) {
     const db = getDatabase();
     return await db.selectFrom('songs')
