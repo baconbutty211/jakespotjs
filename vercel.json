@@ -13,5 +13,7 @@
             "src": "/api/python/(.*)",
             "dest": "/api/python/$1"
         }
-    ]
+    ],
+    "buildCommand": "tsc && vite build",
+    "outputDirectory": "dist"
 }
