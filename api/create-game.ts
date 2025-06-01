@@ -1,9 +1,9 @@
 // @ts-ignore
-import * as database from './database.js';
+import * as database from './database.ts';
 // @ts-ignore
-import * as schema from './schema.js';
+import * as schema from './schema.ts';
 import { VercelRequest, VercelResponse } from '@vercel/node';
- 
+
 // Creates new game record. Returns new game record
 // Body : {}
 // Returns : {id, state, current_song_id}
@@ -13,7 +13,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
         const newGameData = { state: "lobby" } as schema.Game;
         const newGame: schema.NewGame = await database.createGame(newGameData);
         console.log(`Created game {id:${newGame.id}}`);
-        return response.status(200).json( newGame );
+        return response.status(200).json(newGame);
     }
     catch (error) {
         console.error(error);
