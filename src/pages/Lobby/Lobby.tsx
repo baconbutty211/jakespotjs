@@ -20,7 +20,7 @@ export default function Lobby() {
         fetchPlayers(); // Fetch initial list of players
         setLoading(false);
         
-        const intervalId = setInterval(hasUpdate, 10000) // Fetch list of players on a set interval
+        const intervalId = setInterval(hasUpdate, 100000) // Fetch list of players on a set interval
         
         return () => clearInterval(intervalId);
     }, []);

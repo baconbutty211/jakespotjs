@@ -76,10 +76,11 @@ export default function Buffet() {
         // Upsert player
         const playlist_id = playlist.uri.split(':')[2]; // Extract the playlist ID from the URI
         const playerData = await api.UpsertPlayer(cookies.user_id, cookies.game_id, playlist_id);
-        
         // Set random song for player
         try {
-            const random_track = playlist.tracks.items[Math.floor(Math.random() * playlist.tracks.items.length)];
+            const tracks = await spotify_api.playlists.getPlaylistItems(playlist_id); // Fetch the first item to ensure the playlist exists
+            console.log(tracks);
+            const random_track = tracks.items[Math.floor(Math.random() * tracks.total)];
             await api.UpsertSong(playerData.id, random_track.track.id);
         } catch (error: any) {
             console.error('Error setting player random song:', error);
