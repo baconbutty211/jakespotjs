@@ -6,12 +6,8 @@
     },
     "routes": [
         {
-            "src": "/api/node/(.*)",
-            "dest": "/api/node/$1"
-        },
-        {
-            "src": "/api/python/(.*)",
-            "dest": "/api/python/$1"
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
         }
     ],
     "buildCommand": "tsc && vite build",
