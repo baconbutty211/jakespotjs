@@ -34,7 +34,7 @@ function SpotifyUser( { sdk }: { sdk: SpotifyApi }) {
             setCookie("refresh_token", token?.refresh_token);
             // Upsert user
             const userData = await api.UpsertUser(profile.email, token?.access_token, token?.refresh_token, profile.id);
-            console.log(`Access token cookie:${cookies.access_token}. Database access token: ${userData.spotify_access_token}`);
+            //console.log(`Access token cookie:${cookies.access_token}. Database access token: ${userData.spotify_access_token}`);
             setCookie("user_id", userData.id);
         })();
     }, [sdk]);

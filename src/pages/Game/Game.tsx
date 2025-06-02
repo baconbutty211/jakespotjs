@@ -64,7 +64,4 @@ export default function Game() {
                 new Error(`gameState should NOT be ${gameState}`)
             }
         </>)
-
-    
-
 };
