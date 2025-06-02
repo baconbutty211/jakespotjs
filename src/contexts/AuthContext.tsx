@@ -19,8 +19,9 @@ export const AuthContext = createContext<null | any>(null);
 
 // Context Provider
 export function AuthProvider({ children } : AuthContextProps) {
-    const scopes : string[] = [];
-    scopes.concat(Scopes.playlistRead, Scopes.userDetails, Scopes.userPlaybackModify, Scopes.userPlaybackRead, Scopes.userPlayback);
+    //const scopes : string[] = [];
+    //scopes.concat(Scopes.playlistRead, Scopes.userDetails, Scopes.userPlaybackModify, Scopes.userPlaybackRead, Scopes.userPlayback);
+    //const [sdk, loading] = useSpotify(client_id, redirect_uri, scopes);
     const [sdk, loading] = useSpotify(client_id, redirect_uri, Scopes.all);
     const [accessToken, setAccessToken] = useState<AccessToken | null>(null);
     const [tokenExpiry, setTokenExpiry] = useState<number | null>(null);
