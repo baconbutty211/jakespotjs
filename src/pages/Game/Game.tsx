@@ -8,7 +8,7 @@ import Scoring from "./Scoring";
 import Finished from "./Finished";
 
 export default function Game() {
-    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'host', 'access_token']);
+    const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'player_id', 'host', 'spotify_access_token']);
     const [players, setPlayers] = useState<schema.Player[]>([]);
     const [loading, setLoading] = useState<Boolean>(false);
     const [gameState, setGameState] = useState<'guessing' | 'scoring' | 'finished'>('guessing')
@@ -20,7 +20,7 @@ export default function Game() {
         fetchPlayers(); // Fetch initial list of players
         setLoading(false);
         
-        const intervalId = setInterval(hasUpdate, 100000) // Fetch list of players on a set interval
+        const intervalId = setInterval(hasUpdate, 20000) // Fetch list of players on a set interval
         
         return () => clearInterval(intervalId);
     }, []);
@@ -56,9 +56,9 @@ export default function Game() {
                 loading ? 
                     "Loading players..." :
                 (gameState === "guessing") ?
-                    <Guessing players={players} game_id={cookies.game_id} user_id={cookies.user_id} host={cookies.host} access_token={cookies.access_token}  /> :
+                    <Guessing players={players} game_id={cookies.game_id} user_id={cookies.user_id} host={cookies.host} access_token={cookies.spotify_access_token}  /> :
                 (gameState === "scoring") ?
-                    <Scoring players={players}  cookies={cookies}/> :
+                    <Scoring players={players}  game_id={cookies.game_id} user_id={cookies.user_id} player_id={cookies.player_id} host={cookies.host} spotify_access_token={cookies.spotify_access_token}/> :
                 (gameState === "finished") ?
                     <Finished players={players} cookies={cookies}/> :
                 new Error(`gameState should NOT be ${gameState}`)

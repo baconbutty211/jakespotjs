@@ -32,22 +32,7 @@ export default async function POST(request: VercelRequest, response: VercelRespo
         }
 
 
-        if (state === "scoring") { // Score for the players
-            const guesses = await database.findLatestGuessesByGameId(game_id);
-            if (guesses.length == 0) {
-                throw new Error("Attempted to score when no players have guessed. (Guesses[] empty)");
-            }
-            else {
-                console.log(`Guesses: ${guesses}`);
-                guesses.forEach(async (guess: any) => {
-                    if (guess.is_correct) {
-                        await database.incrementPlayerScore(guess.player_id);
-                    }
-                });
-            }
-        }
-        if (state === "guessing") {
-            // Set new current song for the game
+        if (state === "guessing") { // Set new current song for the game
             const players = await database.findPlayersByGameId(game_id);
             const randomPlayer = players[Math.floor(Math.random() * players.length)];
             const song = await database.findSongsByPlayerId(randomPlayer.id);
