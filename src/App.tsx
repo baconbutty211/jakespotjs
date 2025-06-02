@@ -23,32 +23,22 @@ export default function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Landing" element={
-            <PrivateRoute>
-              <Landing /> 
-            </PrivateRoute>
-            } />
             
+            <Route path="/Landing" element={
+              <Landing /> 
+            } />
             <Route path="/Buffet" element={
-              <PrivateRoute>
                 <Buffet />
-              </PrivateRoute>
             } />
             <Route path="/Lobby" element={
-              <PrivateRoute>
                 <Lobby />
-              </PrivateRoute>
             } />
             <Route path="/Game" element={
-              <PrivateRoute>
                 <Game />
-              </PrivateRoute>
             } />
+
             <Route path="/Sandbox" element={ 
-              <PrivateRoute>
                 <Sandbox />
-              </PrivateRoute> 
             }/>
           </Routes>
         </Router>

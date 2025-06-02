@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { SpotifyApi, SdkOptions, AuthorizationCodeWithPKCEStrategy } from "@spotify/web-api-ts-sdk";
 
-export function useSpotify(clientId: string, redirectUrl: string, scopes: string[], config?: SdkOptions) {
+export function useSpotify(clientId: string, redirectUrl: string, scopes: string[], config?: SdkOptions) : [SpotifyApi | null, boolean] {
 
     const [sdk, setSdk] = useState<SpotifyApi | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
