@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import Button from "../../components/Button";
 
 import { redirect_uri, GetRandomInt } from "../../misc";
