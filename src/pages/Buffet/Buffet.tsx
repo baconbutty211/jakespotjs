@@ -10,13 +10,13 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 
-async function GetUserPlaylists(api: SpotifyApi) {
+async function GetUserPlaylists(spotify_api: SpotifyApi) {
     const limit: MaxInt<50> = 50;
     const offset: number = 0; 
     try {
-        const profile = await api?.currentUser.profile() as User;
+        const profile = await spotify_api?.currentUser.profile() as User;
 
-        const results = await api?.playlists.getUsersPlaylists(profile.id, limit, offset);
+        const results = await spotify_api?.playlists.getUsersPlaylists(profile.id, limit, offset);
         const playlists: Playlist[] = results?.items as Playlist[]; // If User has 50+ playlists, this only returns MAX 50 playlists. 
         return playlists;
     }
