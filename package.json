@@ -22,6 +22,7 @@
         "dotenv": "^16.0.3",
         "kysely": "^0.26.1",
         "nvm": "^0.0.4",
+        "pusher": "^5.2.0",
         "pusher-js": "^8.3.0",
         "react": "^18.2.0",
         "react-bootstrap": "^2.8.0",
