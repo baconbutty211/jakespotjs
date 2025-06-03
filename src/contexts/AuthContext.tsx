@@ -34,12 +34,14 @@ export function AuthProvider({ children } : AuthContextProps) {
             if (sdk) {
                 // Fetch access token and user profile
                 const token = await sdk.getAccessToken();
-                const user_profile = await sdk.currentUser.profile();
                 setAccessToken(token);
-
+                
                 // Update user data in the database
-                const userData = await api.UpsertUser(user_profile.email, token?.access_token, token?.refresh_token, user_profile.id);
-                setCookie("user_id", userData.id);
+                if(!cookies.user_id){
+                    const user_profile = await sdk.currentUser.profile();
+                    const userData = await api.UpsertUser(user_profile.email, token?.access_token, token?.refresh_token, user_profile.id);
+                    setCookie("user_id", userData.id);
+                }
                 setCookie("access_token", token?.access_token);
                 setCookie("refresh_token", token?.refresh_token);
 
