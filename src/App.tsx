@@ -1,4 +1,3 @@
-import Login from "./pages/Login/Login";
 import Landing from "./pages/Landing/Landing";
 import Buffet from "./pages/Buffet/Buffet";
 import Lobby from "./pages/Lobby/Lobby";
@@ -6,7 +5,6 @@ import Game from "./pages/Game/Game";
 import Sandbox from "./pages/Test/Sandbox";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import Home from "./pages/Home/Home";
 
