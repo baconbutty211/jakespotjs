@@ -6,38 +6,59 @@ import { useCookies } from "react-cookie";
 import Guessing from "./Guessing";
 import Scoring from "./Scoring";
 import Finished from "./Finished";
+import Pusher from "pusher-js";
 
 export default function Game() {
     const [cookies, SetCookie] = useCookies(['user_id', 'game_id', 'player_id', 'host', 'spotify_access_token']);
     const [players, setPlayers] = useState<schema.Player[]>([]);
-    const [loading, setLoading] = useState<Boolean>(false);
+    const [loading, setLoading] = useState<Boolean>(true);
     const [gameState, setGameState] = useState<'guessing' | 'scoring' | 'finished'>('guessing')
 
 
-    useEffect(() => {
-        checkGameState();
-        setLoading(true);
+    useEffect(() => {        
+        const pusher = new Pusher(
+            import.meta.env.VITE_PUSHER_KEY as string,
+            {
+                cluster: import.meta.env.VITE_PUSHER_CLUSTER as string,
+            }
+        );
+
+        // Subscribe to the game channel
+        const channel = pusher.subscribe(`game-${cookies.game_id}`);
+
+        // listens for new players joining the game
+        channel.bind('player-joined', (data: { players: schema.Player[] }) => {
+            console.log("New player joined:", data.players);
+            setPlayers(data.players); // Update the players state with the new list of players
+            setLoading(false); // Set loading to false once players are loaded
+        });
+
+        // listens for game state updates
+        channel.bind('game-state-updated', (data: { game: schema.Game }) => {
+            setGameState(data.game.state as 'guessing' | 'scoring' | 'finished');      
+        });
+        
+        fetchGameState(); 
         fetchPlayers(); // Fetch initial list of players
-        setLoading(false);
-        
-        const intervalId = setInterval(hasUpdate, 20000) // Fetch list of players on a set interval
-        
-        return () => clearInterval(intervalId);
+
+        return () => {
+            channel.unbind_all();
+            channel.unsubscribe();
+            pusher.disconnect();
+        };
     }, []);
 
-    async function hasUpdate() {
-        fetchPlayers();
-        checkGameState();
-    }
+
     async function fetchPlayers() {
         try {
             const data: schema.Player[] = await api.RetrievePlayers(cookies.game_id); // API endpoint to get the list of players
             setPlayers(data); // Update the players state with the fetched data
+            setLoading(false);
         } catch (error: any) {
             console.error('Error fetching players:', error);
         }
     }
-    async function checkGameState() {
+    async function fetchGameState() {
         try {
             const game: schema.Game = await api.RetrieveGame(cookies.game_id); // API endpoint to get the list of players
             if(game.state === "lobby")
