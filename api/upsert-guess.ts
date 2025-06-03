@@ -3,6 +3,15 @@ import * as database from "./database.js";
 //@ts-ignore
 import * as schema from "./schema.js";
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import Pusher from "pusher";
+
+const pusher = new Pusher({
+    appId: process.env.VITE_PUSHER_APP_ID as string,
+    key: process.env.VITE_PUSHER_KEY as string,
+    secret: process.env.VITE_PUSHER_SECRET as string,
+    cluster: process.env.VITE_PUSHER_CLUSTER as string,
+    useTLS: true
+});
 
 // Receives ???. Creates new ??? record. Updates ??? record. Returns new/updated ??? record.
 // Body : { user_id, game_id, guessed_player_id }
@@ -60,7 +69,12 @@ export default async function PUT(request: VercelRequest, response: VercelRespon
 
             // Update game state to scoring
             const updatedGameData: schema.UpdateableGame = { id: game_id, state: "scoring" };
-            await database.updateGame(updatedGameData);
+            const updatedGame: schema.Game = await database.updateGame(updatedGameData);
+
+            // Broadcast game state update to clients
+            pusher.trigger(`game-${game_id}`, 'game-state-updated', {
+                game: updatedGame
+            });
         }
 
         return response.status(200).json(newGuess);
