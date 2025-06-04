@@ -72,9 +72,11 @@ export default async function PUT(request: VercelRequest, response: VercelRespon
             const updatedGame: schema.Game = await database.updateGame(updatedGameData);
 
             // Broadcast game state update to clients
+            console.log(`All players have guessed. Updating game state to scoring.`);
             pusher.trigger(`game-${game_id}`, 'game-state-updated', {
                 game: updatedGame
             });
+            console.log(`Game state updated to scoring.`);
         }
 
         return response.status(200).json(newGuess);

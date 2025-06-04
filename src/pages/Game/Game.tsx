@@ -36,6 +36,7 @@ export default function Game() {
         // listens for game state updates
         channel.bind('game-state-updated', (data: { game: schema.Game }) => {
             setGameState(data.game.state as 'guessing' | 'scoring' | 'finished');      
+            console.log("Game state updated:", data.game);
         });
         
         fetchGameState(); 
