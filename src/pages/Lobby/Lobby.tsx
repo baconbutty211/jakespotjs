@@ -18,6 +18,7 @@ export default function Lobby() {
     const [loading, setLoading] = useState<Boolean>(true);
 
     useEffect(() => {
+        Pusher.logToConsole = true; // Enable Pusher logging for debugging
         const pusher = new Pusher(
             import.meta.env.VITE_PUSHER_KEY as string,
             {
@@ -54,7 +55,7 @@ export default function Lobby() {
 
     async function fetchPlayers() {
         try {
-            const players = await api.RetrievePlayers(cookies.game_id);
+            const players: schema.Player[] = await api.RetrievePlayers(cookies.game_id);
             setPlayers(players);
             setLoading(false);
         } catch (error) {
@@ -64,12 +65,12 @@ export default function Lobby() {
 
     async function handleStartGame() {
         const newGame = await api.UpdateGame(cookies.game_id, "guessing");
-        if(newGame.state === "guessing") {
+        /*if(newGame.state === "guessing") {
             navigate('/Game');
         }
         else {
             throw new Error(`Game state NOT updated to guessing. ${newGame}`);
-        }
+        }*/
         //updateGame({ id: cookies.game_id, state: "guessing" });
     }
 
